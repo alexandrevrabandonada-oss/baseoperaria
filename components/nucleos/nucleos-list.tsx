@@ -24,9 +24,9 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
     return (
       <NucleosEmptyState
         title="Nenhuma empresa disponível"
-        description="Você precisa estar vinculado a uma empresa para ver núcleos."
+        description="Você precisa estar ligado a uma empresa para enxergar os núcleos da base."
         href="/onboarding"
-        actionLabel="Voltar ao onboarding"
+        actionLabel="Fechar cadastro"
       />
     );
   }
@@ -41,7 +41,7 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
         />
         <NucleosEmptyState
           title="Escolha uma empresa"
-          description="Os núcleos são organizados por empresa. Selecione uma acima para continuar."
+          description="Os núcleos são separados por empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -63,10 +63,9 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Núcleos</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Organização enxuta e vinculada à pauta</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Organização de base ligada à pauta</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Núcleos agrupam pessoas por setor ou tema para acompanhar pautas, encaminhamentos e
-            ações sem chat e sem comunidade aberta.
+            Núcleos juntam gente por setor ou tema para tocar pauta, encaminhamento e ação sem virar rede social.
           </p>
         </div>
       </section>
@@ -110,15 +109,15 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
         <div className="flex flex-col gap-3">
           <p className="text-sm leading-6 text-muted-foreground">
             {canManage
-              ? "Moderadores e administradores podem criar núcleos a partir do escopo escolhido."
-              : "Você pode entrar ou sair de núcleos abertos à empresa, sem criar conteúdo social."}
+              ? "Quem organiza a base pode abrir núcleos por setor ou tema e puxar o trabalho dali."
+              : "Você pode entrar ou sair dos núcleos liberados para sua empresa."}
           </p>
           {canManage ? (
             <Link
               href={`/nucleos/novo?company_id=${context.selectedCompany.id}`}
               className={cn(buttonVariants({ size: "sm" }))}
             >
-              Novo núcleo
+              Abrir núcleo
             </Link>
           ) : null}
         </div>
@@ -131,8 +130,8 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
             title="Nenhum núcleo ainda"
             description={
               canManage
-                ? "Quando você criar o primeiro núcleo, ele aparecerá aqui com membros, pautas ligadas e encaminhamentos."
-                : "Quando a administração criar um núcleo para sua empresa, ele aparecerá aqui."
+                ? "Quando o primeiro núcleo for aberto, ele aparece aqui com membros, pautas e encaminhamentos."
+                : "Quando um núcleo for aberto para sua empresa, ele aparece aqui."
             }
             {...emptyStateProps}
           />
@@ -156,7 +155,7 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
                   {nucleus.description ? (
                     <p className="text-sm leading-6 text-muted-foreground">{nucleus.description}</p>
                   ) : (
-                    <p className="text-sm leading-6 text-muted-foreground">Sem descrição.</p>
+                    <p className="text-sm leading-6 text-muted-foreground">Sem resumo registrado.</p>
                   )}
 
                   <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4">
@@ -191,7 +190,7 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
                       href={nucleus.href}
                       className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                     >
-                      Abrir
+                      Ver núcleo
                     </Link>
                   </div>
                 </div>

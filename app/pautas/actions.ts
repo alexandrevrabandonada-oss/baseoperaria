@@ -126,7 +126,7 @@ export async function saveDemandAction(
     .single();
 
   if (error || !demand) {
-    return { error: "Não foi possível salvar a pauta agora." };
+    return { error: "Não conseguimos registrar a pauta agora." };
   }
 
   revalidatePautas(companyId, demand.id, clusterId);

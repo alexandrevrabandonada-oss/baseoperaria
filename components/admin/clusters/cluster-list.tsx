@@ -6,7 +6,7 @@ import { ClusterForm } from "@/components/admin/clusters/cluster-form";
 import { buttonVariants } from "@/components/ui/button";
 import { CompanyChips } from "@/components/relatos/company-chips";
 import type { ClusterListContext } from "@/lib/supabase/clusters";
-import { clusterStatusOptions } from "@/types/clusters";
+import { labelClusterStatus } from "@/types/clusters";
 import { cn } from "@/lib/utils";
 
 type ClusterListViewProps = {
@@ -15,7 +15,7 @@ type ClusterListViewProps = {
 };
 
 function statusLabel(status: string) {
-  return clusterStatusOptions.find((option) => option.code === status)?.label ?? status;
+  return labelClusterStatus(status as Parameters<typeof labelClusterStatus>[0]);
 }
 
 export function ClusterListView({ context, status }: ClusterListViewProps) {
@@ -23,7 +23,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
     return (
       <AdminEmptyState
         title="Nenhuma empresa administrativa"
-        description="Você precisa ter vínculo como owner ou admin em uma empresa para usar a área de clusters."
+        description="Você precisa ter administração em uma empresa para usar a área de clusters."
       />
     );
   }
@@ -38,7 +38,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
         />
         <AdminEmptyState
           title="Escolha uma empresa"
-          description="Os clusters ficam vinculados a uma empresa. Selecione uma acima para continuar."
+          description="Os clusters ficam presos a uma empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -51,10 +51,9 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Clusters</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Agrupamentos manuais do piloto</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Agrupar sinais antes da pauta</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Cada cluster serve como ponte entre relatos de condições e pautas econômicas. A
-            associação é manual e conduzida por moderadores.
+            Cada cluster junta condição de trabalho e pauta econômica quando o acúmulo aponta a mesma frente. O agrupamento é manual.
           </p>
         </div>
       </section>
@@ -72,7 +71,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
           categories={context.categories}
           companyId={context.selectedCompany.id}
           companyName={context.selectedCompany.name}
-          description="Use este formulário para criar um novo cluster sem duplicar a arquitetura entre condições e econômico."
+          description="Use este formulário para abrir um cluster sem dividir o acúmulo entre condições de trabalho e pauta econômica."
           returnTo={returnTo}
           submitLabel="Criar cluster"
           title="Novo cluster"
@@ -84,7 +83,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
         {context.clusters.length === 0 ? (
           <AdminEmptyState
             title="Nenhum cluster ainda"
-            description="Crie o primeiro agrupamento acima para começar a consolidar relatos e registros econômicos."
+            description="Abra o primeiro cluster acima para começar a juntar relato e pauta econômica no mesmo acúmulo."
           />
         ) : (
           <div className="grid gap-3">
@@ -95,7 +94,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
                     <div className="flex min-w-0 flex-col gap-1">
                       <h2 className="text-base font-semibold">{cluster.title}</h2>
                       <p className="text-xs text-muted-foreground">
-                        {cluster.categoryLabel ?? "Sem categoria"} · {cluster.scopeLabel}
+                        {cluster.categoryLabel ?? "Sem categoria marcada"} · {cluster.scopeLabel}
                       </p>
                     </div>
                     <span className="rounded-full border px-2 py-1 text-xs text-muted-foreground">
@@ -106,7 +105,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
                   {cluster.summary ? (
                     <p className="text-sm leading-6 text-muted-foreground">{cluster.summary}</p>
                   ) : (
-                    <p className="text-sm leading-6 text-muted-foreground">Sem descrição.</p>
+                    <p className="text-sm leading-6 text-muted-foreground">Sem resumo registrado.</p>
                   )}
 
                   <div className="grid gap-2 sm:grid-cols-3">
@@ -135,7 +134,7 @@ export function ClusterListView({ context, status }: ClusterListViewProps) {
                       href={`/admin/clusters/${cluster.id}`}
                       className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                     >
-                      Abrir
+                      Ver cluster
                     </Link>
                   </div>
                 </div>

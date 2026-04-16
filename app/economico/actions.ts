@@ -167,7 +167,7 @@ export async function createEconomicReportAction(
   ]);
 
   if (!severity.data || !contractType.data || !salaryBand.data || !issueType.data) {
-    return { error: "Selecione opções válidas para vínculo, faixa, tipo e gravidade." };
+    return { error: "Escolha opções válidas para vínculo, faixa, problema e gravidade." };
   }
 
   const { data: report, error: reportError } = await supabase
@@ -192,7 +192,7 @@ export async function createEconomicReportAction(
     .single();
 
   if (reportError || !report) {
-    return { error: "Não foi possível salvar o registro econômico agora." };
+    return { error: "Não conseguimos registrar a pauta econômica agora." };
   }
 
   const attachments = formData

@@ -154,7 +154,7 @@ export async function createReportAction(
     .maybeSingle();
 
   if (!severity || !frequency) {
-    return { error: "Selecione gravidade e frequência válidas." };
+    return { error: "Escolha gravidade e frequência válidas." };
   }
 
   const { data: report, error: reportError } = await supabase
@@ -176,7 +176,7 @@ export async function createReportAction(
     .single();
 
   if (reportError || !report) {
-    return { error: "Não foi possível salvar o relato agora." };
+    return { error: "Não conseguimos registrar o relato agora." };
   }
 
   const attachments = formData

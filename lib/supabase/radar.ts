@@ -5,8 +5,8 @@ import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { getAuthContext } from "@/lib/supabase/queries";
 import { createClient } from "@/lib/supabase/server";
 import type { CompanyRole, Database, DemandKind, DemandStatus } from "@/lib/supabase/types";
-import { clusterStatusOptions } from "@/types/clusters";
-import { pautaKindOptions, pautaStatusOptions } from "@/types/pautas";
+import { labelClusterScope, labelClusterStatus } from "@/types/clusters";
+import { labelPautaKind, labelPautaStatus } from "@/types/pautas";
 
 export type RadarCompanyOption = {
   id: string;
@@ -376,14 +376,14 @@ export const getRadarDashboardContext = cache(async (companyId?: string) => {
         reportLinkCount,
         scopeLabel:
           reportLinkCount > 0 && economicLinkCount > 0
-            ? "Misto"
+            ? labelClusterScope("mixed")
             : economicLinkCount > 0
-              ? "Econômico"
+              ? labelClusterScope("economic")
               : reportLinkCount > 0
-                ? "Condição"
+                ? labelClusterScope("conditions")
                 : "Sem vínculos",
         status: cluster.status,
-        statusLabel: clusterStatusOptions.find((option) => option.code === cluster.status)?.label ?? cluster.status,
+        statusLabel: labelClusterStatus(cluster.status),
         summary: cluster.summary,
         title: cluster.title,
         totalLinkCount,
@@ -411,12 +411,12 @@ export const getRadarDashboardContext = cache(async (companyId?: string) => {
         href: `/pautas/${demand.id}`,
         id: demand.id,
         kind: demand.kind,
-        kindLabel: pautaKindOptions.find((option) => option.code === demand.kind)?.label ?? demand.kind,
+        kindLabel: labelPautaKind(demand.kind),
         priorityLabel: severityLabel,
         priorityScore,
         sectorName: demand.sector_id ? sectorMap.get(demand.sector_id)?.name ?? null : null,
         status: demand.status,
-        statusLabel: pautaStatusOptions.find((option) => option.code === demand.status)?.label ?? demand.status,
+        statusLabel: labelPautaStatus(demand.status),
         supportCount,
         title: demand.title,
         unitName: demand.unit_id ? unitMap.get(demand.unit_id)?.name ?? null : null,
@@ -428,7 +428,7 @@ export const getRadarDashboardContext = cache(async (companyId?: string) => {
 
   const summaryCards: RadarSummaryCard[] = [
     {
-      hint: "Registros de condições e econômicos combinados no escopo.",
+      hint: "Registros de condições de trabalho e pauta econômica combinados no escopo.",
       label: "Sinais capturados",
       value: String((reportsResult.data?.length ?? 0) + (economicReportsResult.data?.length ?? 0)),
     },

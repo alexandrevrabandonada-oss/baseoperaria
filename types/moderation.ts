@@ -1,12 +1,16 @@
 export const moderationActionOptions = [
-  { code: "review", label: "Revisado" },
-  { code: "flag", label: "Sinalizado" },
+  { code: "review", label: "Revisto" },
+  { code: "flag", label: "Marcado" },
   { code: "archive", label: "Arquivado" },
-  { code: "cluster_link", label: "Vinculado ao cluster" },
-  { code: "attachment_flag", label: "Anexo sinalizado" },
+  { code: "cluster_link", label: "Ligado ao cluster" },
+  { code: "attachment_flag", label: "Anexo marcado" },
 ] as const;
 
 export type ModerationActionCode = (typeof moderationActionOptions)[number]["code"];
+
+export function labelModerationAction(actionCode: ModerationActionCode) {
+  return moderationActionOptions.find((option) => option.code === actionCode)?.label ?? actionCode;
+}
 
 export const moderationEntityLabels = {
   action: "Encaminhamento",

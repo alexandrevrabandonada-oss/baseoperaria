@@ -13,7 +13,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? "Enviando..." : "Salvar relato"}
+      {pending ? "Registrando..." : "Registrar relato"}
     </Button>
   );
 }
@@ -126,7 +126,7 @@ export function ReportForm({
         </p>
         <h2 className="mt-1 text-base font-semibold">{companyName}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Os campos abaixo são o recorte mínimo para um relato de condições de trabalho.
+          Os campos abaixo seguram o mínimo para registrar problema, contexto e prova.
         </p>
       </section>
 
@@ -135,25 +135,25 @@ export function ReportForm({
           label="Unidade"
           name="unit_id"
           options={unitOptions}
-          placeholder="Sem unidade"
+          placeholder="Sem recorte de unidade"
         />
         <SelectField
           label="Setor"
           name="sector_id"
           options={sectorOptions}
-          placeholder="Sem setor"
+          placeholder="Sem recorte de setor"
         />
         <SelectField
           label="Turno"
           name="shift_id"
           options={shiftOptions}
-          placeholder="Sem turno"
+          placeholder="Sem recorte de turno"
         />
         <SelectField
           label="Categoria"
           name="category_id"
           options={categoryOptions}
-          placeholder="Selecione uma categoria"
+          placeholder="Escolha a categoria do problema"
           required
         />
       </div>
@@ -163,13 +163,13 @@ export function ReportForm({
           label="Gravidade"
           name="severity_code"
           options={severityOptions}
-          placeholder="Selecione a gravidade"
+          placeholder="Escolha o peso do problema"
         />
         <LookupField
           label="Frequência"
           name="frequency_code"
           options={frequencyOptions}
-          placeholder="Selecione a frequência"
+          placeholder="Escolha o quanto isso se repete"
         />
       </div>
 
@@ -181,7 +181,7 @@ export function ReportForm({
           required
           maxLength={90}
           className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-          placeholder="Resumo curto do problema"
+          placeholder="Resumo curto do que está acontecendo"
         />
       </label>
 
@@ -192,7 +192,7 @@ export function ReportForm({
           maxLength={240}
           rows={4}
           className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-          placeholder="Explique o essencial sem expor dados desnecessários."
+          placeholder="Explique o essencial do problema sem expor mais do que precisa."
         />
       </label>
 
@@ -206,7 +206,7 @@ export function ReportForm({
           className="block w-full rounded-lg border border-input bg-background px-3 py-2 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-muted file:px-3 file:py-2 file:text-sm file:font-medium"
         />
         <span className="text-xs text-muted-foreground">
-          PDFs e imagens são suficientes para a maioria dos casos. Se não houver anexo, siga sem ele.
+          PDF e imagem já bastam na maioria dos casos. Se não houver prova agora, siga sem anexo.
         </span>
       </label>
 

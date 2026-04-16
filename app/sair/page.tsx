@@ -15,11 +15,11 @@ export default async function LogoutPage({ searchParams }: LogoutPageProps) {
   const [params, auth] = await Promise.all([searchParams, getAuthContext()]);
 
   return (
-    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-2xl border bg-card p-6 shadow-sm">
+    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-[0_20px_48px_rgb(0_0_0_/_0.34)] sm:p-7">
       <header className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted-foreground">Sessão</p>
-        <h1 className="text-2xl font-semibold tracking-tight">Sair</h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/85">Sessão</p>
+        <h1 className="text-3xl font-bold uppercase tracking-[0.04em] text-foreground">Sair</h1>
+        <p className="text-sm leading-6 text-muted-foreground">
           {auth.user
             ? "Encerrar a sessão atual neste navegador."
             : "Nenhuma sessão ativa encontrada neste navegador."}
@@ -36,8 +36,8 @@ export default async function LogoutPage({ searchParams }: LogoutPageProps) {
         </form>
       ) : null}
 
-      <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-        Voltar para o início
+      <Link href="/" className="text-sm font-medium text-primary hover:text-primary/80">
+        Voltar para a base
       </Link>
     </section>
   );

@@ -25,10 +25,9 @@ export default async function MeusRelatosPage({ searchParams }: MeusRelatosPageP
     <div className="flex flex-col gap-6">
       <section className="flex flex-col gap-3">
         <p className="text-sm font-medium text-muted-foreground">Meus relatos</p>
-        <h1 className="text-3xl font-semibold tracking-tight">Acompanhamento dos seus envios</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Seus relatos na base</h1>
         <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          Aqui aparecem apenas os relatos criados por você, sem feed social e sem exposição
-          desnecessária.
+          Aqui aparecem só os relatos que você abriu, com confirmação, anexo e leitura do que já foi registrado.
         </p>
       </section>
 
@@ -50,12 +49,12 @@ export default async function MeusRelatosPage({ searchParams }: MeusRelatosPageP
               : "/relatos/novo"
           }
           title="Nenhum relato criado por você"
-          description="Crie o primeiro relato para acompanhar o registro, as confirmações e os anexos num fluxo privado."
+          description="Abra seu primeiro relato para acompanhar prova, confirmação e desdobramento dentro da base."
         />
       ) : (
         <RelatosEmptyState
           title="Sem empresa vinculada"
-          description="Você precisa estar vinculado a uma empresa antes de criar ou acompanhar relatos."
+          description="Você precisa estar ligado a uma empresa antes de abrir ou acompanhar relato." 
         />
       )}
     </div>

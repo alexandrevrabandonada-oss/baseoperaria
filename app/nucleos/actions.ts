@@ -248,7 +248,7 @@ export async function saveNucleusAction(
     .single();
 
   if (error || !nucleus) {
-    return { error: "Não foi possível salvar o núcleo agora." };
+    return { error: "Não conseguimos abrir o núcleo agora." };
   }
 
   const { error: membershipError } = await supabase.from("nucleus_members").upsert(
@@ -262,7 +262,7 @@ export async function saveNucleusAction(
   );
 
   if (membershipError) {
-    return { error: "Núcleo criado, mas não foi possível registrar sua adesão." };
+    return { error: "O núcleo foi aberto, mas sua entrada não pôde ser registrada agora." };
   }
 
   revalidateNucleos(companyId, nucleus.id);
@@ -322,7 +322,7 @@ export async function toggleMyNucleusMembershipAction(
       .eq("profile_id", auth.user.id);
 
     if (error) {
-      return { error: "Não foi possível sair do núcleo agora." };
+      return { error: "Não conseguimos registrar sua saída do núcleo agora." };
     }
 
     revalidateNucleos(companyId, nucleusId);
@@ -337,7 +337,7 @@ export async function toggleMyNucleusMembershipAction(
   });
 
   if (error) {
-    return { error: "Não foi possível registrar sua adesão agora." };
+    return { error: "Não conseguimos registrar sua entrada no núcleo agora." };
   }
 
   revalidateNucleos(companyId, nucleusId);
@@ -404,7 +404,7 @@ export async function saveNucleusMemberAction(
   );
 
   if (error) {
-    return { error: "Não foi possível salvar o membro agora." };
+    return { error: "Não conseguimos registrar esse membro no núcleo agora." };
   }
 
   revalidateNucleos(companyId, nucleusId);
@@ -478,7 +478,7 @@ export async function saveNucleusEncaminhamentoAction(
   });
 
   if (error) {
-    return { error: "Não foi possível salvar o encaminhamento agora." };
+    return { error: "Não conseguimos registrar esse encaminhamento agora." };
   }
 
   revalidateNucleos(companyId, nucleusId, demandId ?? undefined);

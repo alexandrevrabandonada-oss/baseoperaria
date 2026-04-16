@@ -13,14 +13,14 @@ import type {
   NucleusMemberRole,
   NucleusScopeKind,
   NucleusStatus,
-  ReportStatus,
 } from "@/lib/supabase/types";
 import {
-  nucleusActionStatusOptions,
-  nucleusActionTypeOptions,
-  nucleusMemberRoleOptions,
-  nucleusStatusOptions,
+  labelNucleusActionStatus,
+  labelNucleusActionType,
+  labelNucleusMemberRole,
+  labelNucleusStatus,
 } from "@/types/nucleos";
+import { labelPautaStatus } from "@/types/pautas";
 import type { AdminCompanyOption, AdminReferenceOption } from "@/lib/supabase/admin";
 
 export type NucleusCompanyOption = AdminCompanyOption;
@@ -153,12 +153,12 @@ function mapRowsById<T extends { id: string }>(rows: T[] | null | undefined) {
   return new Map((rows ?? []).map((row) => [row.id, row] as const));
 }
 
-function labelStatus(status: NucleusStatus | ReportStatus | ActionStatus) {
-  return nucleusStatusOptions.find((option) => option.code === status)?.label ?? status;
+function labelStatus(status: NucleusStatus) {
+  return labelNucleusStatus(status);
 }
 
 function labelActionStatus(status: ActionStatus) {
-  return nucleusActionStatusOptions.find((option) => option.code === status)?.label ?? status;
+  return labelNucleusActionStatus(status);
 }
 
 function labelScope(
@@ -231,8 +231,7 @@ async function getCompanyMembers(
     .map((membership) => ({
       id: membership.profile_id,
       label: membership.profiles?.pseudonym ?? membership.profile_id,
-      meta:
-        nucleusMemberRoleOptions.find((option) => option.code === membership.role)?.label ?? null,
+      meta: labelNucleusMemberRole(membership.role),
     }))
     .filter((member) => Boolean(member.label)) as NucleusCompanyMemberOption[];
 }
@@ -459,26 +458,13 @@ export const getNucleusDetailContext = cache(async (nucleusId: string) => {
     href: `/pautas/${demand.id}`,
     id: demand.id,
     status: demand.status,
-    statusLabel:
-      demand.status === "draft"
-        ? "Rascunho"
-        : demand.status === "open"
-          ? "Aberta"
-          : demand.status === "planned"
-            ? "Planejada"
-            : demand.status === "in_progress"
-              ? "Em andamento"
-              : demand.status === "completed"
-                ? "Concluída"
-                : "Cancelada",
+    statusLabel: labelPautaStatus(demand.status),
     title: demand.title,
   }));
 
   const actions = actionList.map((action) => ({
     actionType: action.action_type,
-    actionTypeLabel:
-      nucleusActionTypeOptions.find((option) => option.code === action.action_type)?.label ??
-      action.action_type,
+    actionTypeLabel: labelNucleusActionType(action.action_type),
     createdAt: action.created_at,
     demandHref: action.demand_id ? `/pautas/${action.demand_id}` : null,
     demandTitle: action.demand_id ? demandMap.get(action.demand_id)?.title ?? null : null,
@@ -506,18 +492,7 @@ export const getNucleusDetailContext = cache(async (nucleusId: string) => {
   const availableDemandOptions = (demandsResult.data ?? []).map((demand) => ({
     id: demand.id,
     label: demand.title,
-    meta:
-      demand.status === "draft"
-        ? "Rascunho"
-        : demand.status === "open"
-          ? "Aberta"
-          : demand.status === "planned"
-            ? "Planejada"
-            : demand.status === "in_progress"
-              ? "Em andamento"
-              : demand.status === "completed"
-                ? "Concluída"
-                : "Cancelada",
+    meta: labelPautaStatus(demand.status),
   }));
 
   return {

@@ -20,14 +20,14 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
   }
 
   return (
-    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-2xl border bg-card p-6 shadow-sm">
+    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-[0_20px_48px_rgb(0_0_0_/_0.34)] sm:p-7">
       <header className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted-foreground">Autenticação</p>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Entrar com magic link
+        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/85">Entrada privada</p>
+        <h1 className="text-3xl font-bold uppercase tracking-[0.04em] text-foreground">
+          Entrar na base
         </h1>
-        <p className="text-sm text-muted-foreground">
-          Informe seu e-mail para receber um link seguro de acesso.
+        <p className="text-sm leading-6 text-muted-foreground">
+          Informe seu e-mail para receber um link privado de entrada.
         </p>
       </header>
 
@@ -47,17 +47,16 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </label>
 
         <Button type="submit" className="w-full">
-          Enviar link de acesso
+          Receber link de entrada
         </Button>
       </form>
 
       <p className="text-xs leading-5 text-muted-foreground">
-        Ao entrar pela primeira vez, você completa um onboarding curto com
-        pseudônimo e vínculo inicial simples.
+        Na primeira entrada, você fecha um cadastro curto com pseudônimo e vínculo de base.
       </p>
 
-      <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-foreground">
-        Voltar para o início
+      <Link href="/" className="text-sm font-medium text-primary hover:text-primary/80">
+        Voltar para a base
       </Link>
     </section>
   );

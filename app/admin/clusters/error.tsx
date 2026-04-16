@@ -18,9 +18,9 @@ export default function AdminClustersError({ error, reset }: AdminClustersErrorP
     <div className="flex flex-col gap-4 rounded-3xl border bg-card p-6">
       <div className="flex flex-col gap-2">
         <p className="text-sm font-medium text-muted-foreground">Erro</p>
-        <h1 className="text-2xl font-semibold tracking-tight">Não foi possível carregar clusters</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Não foi possível abrir os clusters</h1>
         <p className="text-sm text-muted-foreground">
-          Tente novamente. Se o problema persistir, verifique a base e as permissões do usuário.
+          Tente de novo. Se continuar travando, confira a base e as permissões de quem está entrando.
         </p>
       </div>
       <Button type="button" onClick={() => reset()} className="w-full sm:w-auto">

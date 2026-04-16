@@ -27,7 +27,7 @@ export default async function EconomicNovoPage({ searchParams }: EconomicNovoPag
         <p className="text-sm font-medium text-muted-foreground">Novo registro econômico</p>
         <h1 className="text-3xl font-semibold tracking-tight">Registrar pauta econômica</h1>
         <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          O formulário abaixo é curto, sem exigir valor salarial exato.
+          O formulário é curto e direto, sem exigir valor exato nem abrir sua vida financeira.
         </p>
       </section>
 
@@ -55,13 +55,13 @@ export default async function EconomicNovoPage({ searchParams }: EconomicNovoPag
         ) : (
           <EconomicEmptyState
             title="Sem tipos econômicos cadastrados"
-            description="A empresa ainda não tem tipos econômicos ativos. Cadastre ao menos um tipo de problema para liberar o formulário."
+            description="Essa empresa ainda não tem tipo de pauta econômica liberado. Cadastre ao menos um para abrir o registro."
           />
         )
       ) : (
         <EconomicEmptyState
           title="Selecione uma empresa"
-          description="Escolha uma empresa acima para carregar unidades, setores, turnos e apoio econômico disponíveis."
+          description="Escolha a empresa acima para puxar unidade, setor, turno e apoio desse registro."
         />
       )}
     </div>

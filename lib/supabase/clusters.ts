@@ -16,7 +16,11 @@ import type {
   ReportCategoryKind,
   ReportStatus,
 } from "@/lib/supabase/types";
-import { clusterScopeLabels, clusterStatusOptions, type ClusterStatusCode } from "@/types/clusters";
+import {
+  clusterScopeLabels,
+  labelClusterStatus,
+  type ClusterStatusCode,
+} from "@/types/clusters";
 
 export type ClusterCategoryOption = {
   id: string;
@@ -131,8 +135,7 @@ function mapLookupRows<T extends { code: string }>(rows: T[] | null | undefined)
 }
 
 function labelStatus(status: ReportStatus | ClusterStatusCode) {
-  const entry = clusterStatusOptions.find((option) => option.code === status);
-  return entry?.label ?? status;
+  return labelClusterStatus(status as ClusterStatusCode);
 }
 
 function determineScopeLabel(

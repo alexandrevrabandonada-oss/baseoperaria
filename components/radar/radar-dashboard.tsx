@@ -30,7 +30,7 @@ function SectionCard({
         </div>
 
         {items.length === 0 ? (
-          <p className="text-sm text-muted-foreground">Sem dados neste recorte.</p>
+          <p className="text-sm text-muted-foreground">Ainda não há força suficiente nesse recorte.</p>
         ) : (
           <div className="grid gap-2">
             {items.slice(0, 5).map((item, index) => (
@@ -57,10 +57,9 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <p className="text-sm font-medium text-muted-foreground">Radar</p>
-              <h1 className="text-3xl font-semibold tracking-tight">Leitura coletiva privada</h1>
+              <h1 className="text-3xl font-semibold tracking-tight">Leitura privada do que está se repetindo</h1>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                O radar consolida o que já existe em relatos, registros econômicos, clusters e
-                pautas. Não há pipeline novo, só leitura organizada do material capturado.
+                O radar junta relatos, frente econômica, clusters e pautas para mostrar onde o problema está apertando mais.
               </p>
             </div>
 
@@ -91,8 +90,8 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
           title={companyCount > 0 ? "Selecione uma empresa" : "Sem empresa vinculada"}
           description={
             companyCount > 0
-              ? "Escolha a empresa que você quer ler. O radar só mostra dados do seu escopo de acesso."
-              : "Sem vínculo com empresa, não existe base para consolidar o radar coletivo."
+              ? "Escolha a empresa que você quer ler. O radar só abre o que está dentro do seu acesso."
+              : "Sem empresa ligada ao seu acesso, não existe base para montar esse radar."
           }
         />
       </div>
@@ -105,10 +104,9 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-muted-foreground">Radar</p>
-            <h1 className="text-3xl font-semibold tracking-tight">Leitura coletiva privada</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">Leitura privada do que está se repetindo</h1>
             <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-              Baseado em dados já capturados para {selectedCompany.name}. O objetivo é dar visão
-              rápida do que está se repetindo sem criar análise complexa.
+              Leitura montada a partir do que já foi registrado em {selectedCompany.name}. O foco é enxergar repetição, peso e prioridade.
             </p>
           </div>
 
@@ -150,35 +148,35 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
       <section className="grid gap-4 lg:grid-cols-3">
         <SectionCard
           title="Categorias"
-          description="Categorias mais recorrentes no conjunto de relatos e registros do escopo."
+          description="Problemas que mais aparecem dentro desse recorte da base."
           items={context.categoryBreakdown}
         />
         <SectionCard
           title="Setores"
-          description="Setores com maior volume de sinais capturados."
+          description="Setores onde os sinais estão apertando mais."
           items={context.sectorBreakdown}
         />
         <SectionCard
           title="Turnos"
-          description="Distribuição dos sinais por turno."
+          description="Como o problema se distribui entre os turnos."
           items={context.shiftBreakdown}
         />
       </section>
 
       <section className="grid gap-4 lg:grid-cols-3">
         <SectionCard
-          title="Problemas econômicos"
-          description="Tipos de problema econômico mais recorrentes."
+          title="Frentes econômicas"
+          description="Problemas do bolso e do vínculo que mais voltam nesse recorte."
           items={context.economicIssueBreakdown}
         />
         <SectionCard
           title="Faixas salariais"
-          description="Recorte por faixa, sem exigir valor exato."
+          description="Leitura por faixa salarial, sem expor valor exato."
           items={context.economicSalaryBreakdown}
         />
         <SectionCard
           title="Vínculos"
-          description="Distribuição por tipo de vínculo formal."
+          description="Distribuição por tipo de vínculo de trabalho."
           items={context.economicContractBreakdown}
         />
       </section>
@@ -189,12 +187,12 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
             <div className="flex flex-col gap-1">
               <h2 className="text-base font-semibold">Clusters mais relevantes</h2>
               <p className="text-sm text-muted-foreground">
-                Ordenados pelo volume de vínculos já associados manualmente.
+                Ordenados pelo volume de sinais já agrupados manualmente.
               </p>
             </div>
 
             {context.topClusters.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Sem clusters com vínculos ainda.</p>
+              <p className="text-sm text-muted-foreground">Ainda não há cluster com força suficiente aqui.</p>
             ) : (
               <div className="grid gap-3">
                 {context.topClusters.map((cluster) => (
@@ -226,12 +224,12 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
             <div className="flex flex-col gap-1">
               <h2 className="text-base font-semibold">Pautas prioritárias</h2>
               <p className="text-sm text-muted-foreground">
-                Pautas mais urgentes na fila, com apoio já registrado.
+                Pautas mais apertadas neste momento, com apoio já registrado.
               </p>
             </div>
 
             {context.priorityDemands.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Nenhuma pauta prioritária no momento.</p>
+              <p className="text-sm text-muted-foreground">Ainda não há pauta prioritária puxando a fila.</p>
             ) : (
               <div className="grid gap-3">
                 {context.priorityDemands.map((demand) => (
@@ -248,7 +246,7 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
                       </div>
                       <h3 className="text-sm font-semibold">{demand.title}</h3>
                       <p className="text-sm text-muted-foreground">
-                        {demand.priorityLabel ? `Prioridade: ${demand.priorityLabel}` : "Sem prioridade informada"}
+                        {demand.priorityLabel ? `Prioridade: ${demand.priorityLabel}` : "Sem prioridade fechada"}
                         {demand.clusterTitle ? ` · Origem: ${demand.clusterTitle}` : ""}
                       </p>
                     </div>
@@ -257,7 +255,7 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
                         {demand.unitName ?? demand.sectorName ?? demand.companyName}
                       </span>
                       <Link href={demand.href} className={cn(buttonVariants({ size: "sm" }))}>
-                        Abrir
+                        Ver pauta
                       </Link>
                     </div>
                   </article>

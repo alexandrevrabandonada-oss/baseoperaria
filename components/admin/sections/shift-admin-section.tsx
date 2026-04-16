@@ -35,7 +35,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
     return (
       <AdminEmptyState
         title="Nenhuma empresa administrativa"
-        description="Cadastre ou vincule uma empresa como owner/admin para começar a organizar turnos."
+        description="Tenha administração em uma empresa para começar a organizar os turnos da base."
       />
     );
   }
@@ -50,7 +50,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
         />
         <AdminEmptyState
           title="Escolha uma empresa"
-          description="Os turnos ficam vinculados a uma empresa. Selecione uma acima para continuar."
+          description="Os turnos ficam presos a uma empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -82,9 +82,9 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Turnos</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Cadastro de turnos simples</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Turnos para marcar onde o problema aperta</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Defina turnos com horário de início, fim e indicação de virada para o dia seguinte.
+            Defina os turnos com horário e virada de dia para que a leitura da base fique concreta.
           </p>
         </div>
       </section>
@@ -126,7 +126,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
                 maxLength={80}
                 defaultValue={editingShift?.code ?? ""}
                 className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                placeholder="Opcional; gerado se vazio"
+                placeholder="Gerado automaticamente se ficar vazio"
               />
             </label>
           </div>
@@ -159,7 +159,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
                 defaultValue={editingShift?.unit_id ?? ""}
                 className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
               >
-                <option value="">Sem unidade</option>
+                <option value="">Sem recorte de unidade</option>
                 {workspace.unitOptions.map((unit) => (
                   <option key={unit.id} value={unit.id}>
                     {unit.label}
@@ -186,7 +186,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
 
           <div className="flex flex-wrap gap-2">
             <button type="submit" className={cn(buttonVariants())}>
-              {editingShift ? "Salvar turno" : "Criar turno"}
+              {editingShift ? "Registrar ajuste no turno" : "Abrir turno"}
             </button>
             {editingShift ? (
               <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
@@ -211,7 +211,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
                         <h2 className="text-base font-semibold">{shift.name}</h2>
                         <p className="text-xs text-muted-foreground">
                           {shift.code}
-                          {shift.unit_id ? ` · ${unitMap.get(shift.unit_id) ?? "Sem unidade"}` : ""}
+                          {shift.unit_id ? ` · ${unitMap.get(shift.unit_id) ?? "Sem recorte de unidade"}` : ""}
                         </p>
                       </div>
                       <span className="rounded-full border px-2 py-1 text-xs text-muted-foreground">
@@ -229,7 +229,7 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
                         href={`${returnTo}&edit=${shift.id}`}
                         className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                       >
-                        Editar
+                        Ajustar
                       </Link>
 
                       <form action={toggleShiftActiveAction}>
@@ -256,9 +256,9 @@ export async function ShiftAdminSection({ companyId, editId, status }: ShiftAdmi
           ) : (
             <AdminEmptyState
               title="Nenhum turno cadastrado"
-              description="Crie o primeiro turno para organizar os relatos e registros."
+              description="Abra o primeiro turno para marcar melhor onde o problema se repete."
               actionHref={returnTo}
-              actionLabel="Criar turno"
+              actionLabel="Abrir turno"
             />
           )}
         </div>

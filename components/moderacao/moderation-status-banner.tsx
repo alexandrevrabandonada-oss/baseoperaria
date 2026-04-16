@@ -1,3 +1,5 @@
+import { StatusBanner } from "@/components/ui/status-banner";
+
 type ModerationStatusBannerProps = {
   status: string | undefined;
 };
@@ -19,11 +21,11 @@ const statusMessages: Record<
   },
   "vinculo-salvo": {
     kind: "success",
-    message: "Item vinculado ao cluster com sucesso.",
+    message: "Item ligado ao cluster com sucesso.",
   },
   "relato-sinalizado": {
     kind: "success",
-    message: "Relato sinalizado com sucesso.",
+    message: "Relato marcado com sucesso.",
   },
   "relato-arquivado": {
     kind: "success",
@@ -31,7 +33,7 @@ const statusMessages: Record<
   },
   "economico-sinalizado": {
     kind: "success",
-    message: "Registro econômico sinalizado com sucesso.",
+    message: "Registro econômico marcado com sucesso.",
   },
   "economico-arquivado": {
     kind: "success",
@@ -39,7 +41,7 @@ const statusMessages: Record<
   },
   "anexo-sinalizado": {
     kind: "success",
-    message: "Anexo sinalizado com sucesso.",
+    message: "Anexo marcado com sucesso.",
   },
   erro: {
     kind: "error",
@@ -58,12 +60,5 @@ export function ModerationStatusBanner({ status }: ModerationStatusBannerProps) 
     return null;
   }
 
-  const base =
-    entry.kind === "error"
-      ? "border-destructive/30 bg-destructive/10 text-destructive"
-      : entry.kind === "success"
-        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-        : "border-border bg-muted text-foreground";
-
-  return <div className={`rounded-xl border px-4 py-3 text-sm ${base}`}>{entry.message}</div>;
+  return <StatusBanner kind={entry.kind} message={entry.message} />;
 }

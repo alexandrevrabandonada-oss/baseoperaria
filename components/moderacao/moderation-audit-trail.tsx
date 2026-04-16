@@ -55,7 +55,7 @@ export function ModerationAuditTrail({
             {events.map((event) => {
               const details = formatDetails(event.details);
               const actorLabel =
-                currentUserId && event.actorProfileId === currentUserId ? "Você" : "Perfil interno";
+                currentUserId && event.actorProfileId === currentUserId ? "Você" : "Perfil da base";
 
               return (
                 <article key={event.id} className="rounded-xl border bg-background p-4">
@@ -70,7 +70,7 @@ export function ModerationAuditTrail({
                       <span>{actorLabel}</span>
                     </div>
 
-                    <p className="text-sm font-medium">{event.reason ?? "Sem motivo registrado"}</p>
+                    <p className="text-sm font-medium">{event.reason ?? "Sem motivo registrado na ação"}</p>
 
                     {details.length > 0 ? (
                       <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">

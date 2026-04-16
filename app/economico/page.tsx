@@ -28,20 +28,20 @@ export default async function EconomicPage({ searchParams }: EconomicPageProps) 
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-muted-foreground">Pauta Econômica</p>
             <h1 className="text-3xl font-semibold tracking-tight">
-              Registros econômicos separados e objetivos
+              Registrar o que pesa no bolso e no vínculo
             </h1>
             <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-              O fluxo econômico coleta vínculo, faixa salarial, cargo formal e função real sem
-              exigir valor salarial exato.
+              Use este espaço para salário, desconto, desvio de função, vínculo e outros problemas
+              de pauta econômica sem precisar informar valor exato.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <Link href="/economico/novo" className={cn(buttonVariants())}>
-              Novo registro
+              Abrir registro econômico
             </Link>
             <Link href="/economico/meus" className={cn(buttonVariants({ variant: "outline" }))}>
-              Meus registros econômicos
+              Meus registros
             </Link>
           </div>
         </div>
@@ -67,7 +67,7 @@ export default async function EconomicPage({ searchParams }: EconomicPageProps) 
             Fluxo
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Formulário, meus registros, detalhe e confirmação.
+            Registro, confirmação, detalhe e prova.
           </p>
         </div>
       </section>
@@ -77,7 +77,7 @@ export default async function EconomicPage({ searchParams }: EconomicPageProps) 
       ) : (
         <EconomicEmptyState
           title="Sem empresa vinculada"
-          description="Você ainda não está associado a nenhuma empresa. Sem isso, não há como abrir o formulário econômico."
+          description="Você ainda não está ligado a nenhuma empresa. Sem esse vínculo, a base não libera a frente econômica."
         />
       )}
     </div>

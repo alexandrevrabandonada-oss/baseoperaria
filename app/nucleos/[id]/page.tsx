@@ -27,9 +27,9 @@ export default async function NucleosDetailPage({ params, searchParams }: Nucleo
     return (
       <NucleosEmptyState
         title="Núcleo indisponível"
-        description="Você precisa participar da empresa para abrir este núcleo, ou ele pode ter sido removido."
+        description="Esse núcleo não está liberado para o seu acesso ou pode ter saído de circulação."
         href="/nucleos"
-        actionLabel="Voltar para Núcleos"
+        actionLabel="Voltar para núcleos"
       />
     );
   }

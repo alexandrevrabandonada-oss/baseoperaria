@@ -28,17 +28,17 @@ export default async function RelatosPage({ searchParams }: RelatosPageProps) {
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-muted-foreground">Relatos</p>
             <h1 className="text-3xl font-semibold tracking-tight">
-              Condições de trabalho em fluxo curto e privado
+              Registrar o que está pegando no trabalho
             </h1>
             <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-              Registre relatos de forma rápida no celular, sem feed social e sem expor dados
-              desnecessários.
+              Abra um registro curto, direto e privado sobre ritmo, risco, chefia, equipamento,
+              setor ou turno sem expor dado além do necessário.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             <Link href="/relatos/novo" className={cn(buttonVariants())}>
-              Novo relato
+              Registrar problema
             </Link>
             <Link href="/relatos/meus" className={cn(buttonVariants({ variant: "outline" }))}>
               Meus relatos
@@ -67,7 +67,7 @@ export default async function RelatosPage({ searchParams }: RelatosPageProps) {
             Fluxo
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Formulário, meus relatos, detalhe e confirmação.
+            Registro, confirmação, detalhe e prova.
           </p>
         </div>
       </section>
@@ -77,7 +77,7 @@ export default async function RelatosPage({ searchParams }: RelatosPageProps) {
       ) : (
         <RelatosEmptyState
           title="Sem empresa vinculada"
-          description="Você ainda não está associado a nenhuma empresa. Sem isso, não há como abrir o formulário de relato."
+          description="Você ainda não está ligado a nenhuma empresa. Sem esse vínculo, a base não libera relato nesse espaço."
         />
       )}
     </div>

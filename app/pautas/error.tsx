@@ -17,9 +17,9 @@ export default function PautasError({ error, reset }: PautasErrorProps) {
   return (
     <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-lg font-semibold tracking-tight">Falha ao carregar pautas</h2>
+        <h2 className="text-lg font-semibold tracking-tight">Não foi possível puxar as pautas</h2>
         <p className="text-sm text-muted-foreground">
-          Tente novamente. Se o erro persistir, recarregue a página.
+          Tente de novo. Se continuar travando, recarregue a base e abra a lista outra vez.
         </p>
       </div>
       <div className="flex gap-2">

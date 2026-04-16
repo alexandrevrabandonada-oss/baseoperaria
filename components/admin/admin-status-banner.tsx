@@ -1,3 +1,5 @@
+import { StatusBanner } from "@/components/ui/status-banner";
+
 type AdminStatusBannerProps = {
   status: string | undefined;
 };
@@ -11,7 +13,7 @@ const statusMessages: Record<
 > = {
   "dados-invalidos": {
     kind: "error",
-    message: "Verifique os campos obrigatórios e tente novamente.",
+    message: "Revise os campos obrigatórios e tente de novo.",
   },
   "nome-invalido": {
     kind: "error",
@@ -19,23 +21,23 @@ const statusMessages: Record<
   },
   "slug-duplicado": {
     kind: "error",
-    message: "Já existe um cadastro com este código ou slug.",
+    message: "Já existe cadastro com esse código ou slug.",
   },
   "cluster-salvo": {
     kind: "success",
-    message: "Cluster salvo com sucesso.",
+    message: "Cluster registrado com sucesso.",
   },
   "vinculo-salvo": {
     kind: "success",
-    message: "Vínculo criado com sucesso.",
+    message: "Ligação registrada com sucesso.",
   },
   "vinculo-removido": {
     kind: "success",
-    message: "Vínculo removido com sucesso.",
+    message: "Ligação removida com sucesso.",
   },
   "vinculo-ja-existente": {
     kind: "error",
-    message: "Este item já está vinculado ao cluster.",
+    message: "Este item já está ligado a esse cluster.",
   },
   "cluster-ja-existente": {
     kind: "error",
@@ -47,11 +49,11 @@ const statusMessages: Record<
   },
   erro: {
     kind: "error",
-    message: "Não foi possível salvar a alteração agora.",
+    message: "Não conseguimos registrar essa alteração agora.",
   },
   salvo: {
     kind: "success",
-    message: "Cadastro salvo com sucesso.",
+    message: "Cadastro registrado com sucesso.",
   },
   arquivada: {
     kind: "success",
@@ -78,14 +80,5 @@ export function AdminStatusBanner({ status }: AdminStatusBannerProps) {
     return null;
   }
 
-  const base =
-    entry.kind === "error"
-      ? "border-destructive/30 bg-destructive/10 text-destructive"
-      : entry.kind === "success"
-        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-        : "border-border bg-muted text-foreground";
-
-  return (
-    <div className={`rounded-xl border px-4 py-3 text-sm ${base}`}>{entry.message}</div>
-  );
+  return <StatusBanner kind={entry.kind} message={entry.message} />;
 }

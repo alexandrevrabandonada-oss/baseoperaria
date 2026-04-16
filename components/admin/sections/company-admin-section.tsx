@@ -32,7 +32,7 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
     return (
       <AdminEmptyState
         title="Nenhuma empresa administrativa"
-        description="Você precisa ter vínculo como owner ou admin em uma empresa para usar este painel."
+        description="Você precisa ter administração em uma empresa para mexer nessa frente da base."
       />
     );
   }
@@ -46,10 +46,9 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Empresas</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Cadastro base do piloto</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Base das empresas no sistema</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Use esta tela para criar e ajustar empresas administrativas sem misturar o fluxo do
-            trabalhador.
+            Aqui você abre e ajusta as empresas que delimitam acesso, leitura e organização da base.
           </p>
         </div>
       </section>
@@ -84,7 +83,7 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
                 maxLength={80}
                 defaultValue={editingCompany?.slug ?? ""}
                 className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                placeholder="gerado automaticamente se vazio"
+                placeholder="Gerado automaticamente se ficar vazio"
               />
             </label>
           </div>
@@ -97,7 +96,7 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
               maxLength={240}
               defaultValue={editingCompany?.website ?? ""}
               className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-              placeholder="Opcional"
+              placeholder="Se houver referência pública, registre aqui"
             />
           </label>
 
@@ -109,13 +108,13 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
               rows={3}
               defaultValue={editingCompany?.description ?? ""}
               className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-              placeholder="Opcional"
+              placeholder="Resumo curto do papel dessa empresa na base"
             />
           </label>
 
           <div className="flex flex-wrap gap-2">
             <button type="submit" className={cn(buttonVariants())}>
-              {editingCompany ? "Salvar empresa" : "Criar empresa"}
+              {editingCompany ? "Registrar ajuste na empresa" : "Abrir empresa"}
             </button>
             {editingCompany ? (
               <Link href="/admin/empresas" className={cn(buttonVariants({ variant: "outline" }))}>
@@ -150,7 +149,7 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
 
                   {company.id === editingCompany?.id ? (
                     <p className="text-xs text-muted-foreground">
-                      Você está editando este cadastro.
+                      Você está ajustando essa empresa agora.
                     </p>
                   ) : null}
 
@@ -159,7 +158,7 @@ export async function CompanyAdminSection({ editId, status }: CompanyAdminSectio
                       href={`/admin/empresas?edit=${company.id}`}
                       className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                     >
-                      Editar
+                      Ajustar
                     </Link>
 
                     <form action={toggleCompanyArchiveAction}>

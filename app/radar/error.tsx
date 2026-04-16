@@ -19,10 +19,9 @@ export default function RadarError({ error, reset }: RadarErrorProps) {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <p className="text-sm font-medium text-destructive">Radar indisponível</p>
-          <h1 className="text-2xl font-semibold tracking-tight">Falha ao carregar a leitura</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Não conseguimos abrir essa leitura</h1>
           <p className="text-sm text-muted-foreground">
-            Tente novamente. Se o problema persistir, revise a conexão com o Supabase e a sessão
-            atual.
+            Tente novamente. Se continuar travando, confira sua sessão e a conexão com a base.
           </p>
         </div>
 

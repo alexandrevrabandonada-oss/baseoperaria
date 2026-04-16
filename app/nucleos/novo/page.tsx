@@ -29,9 +29,9 @@ export default async function NucleosCreatePage({ searchParams }: NucleosCreateP
     return (
       <NucleosEmptyState
         title="Escolha uma empresa administrativa"
-        description="Você precisa ter acesso de moderador ou admin em uma empresa para criar núcleos."
+        description="Você precisa ter acesso de moderação ou administração em uma empresa para abrir núcleo."
         href="/nucleos"
-        actionLabel="Voltar para Núcleos"
+        actionLabel="Voltar para núcleos"
       />
     );
   }
@@ -46,12 +46,11 @@ export default async function NucleosCreatePage({ searchParams }: NucleosCreateP
               <h1 className="text-3xl font-semibold tracking-tight">{context.companyName}</h1>
             </div>
             <Link href="/nucleos" className={cn(buttonVariants({ variant: "outline" }))}>
-              Voltar
+              Voltar para núcleos
             </Link>
           </div>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Crie um núcleo por setor ou por tema. A adesão continua controlada e vinculada à
-            empresa escolhida.
+            Abra um núcleo por setor ou por tema. A entrada continua controlada e presa à empresa escolhida.
           </p>
         </div>
       </section>

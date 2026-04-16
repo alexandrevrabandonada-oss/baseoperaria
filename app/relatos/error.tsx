@@ -17,9 +17,9 @@ export default function RelatosError({ error, reset }: RelatosErrorProps) {
   return (
     <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-lg font-semibold tracking-tight">Falha ao carregar relatos</h2>
+        <h2 className="text-lg font-semibold tracking-tight">Não foi possível puxar os relatos</h2>
         <p className="text-sm text-muted-foreground">
-          Tente novamente. Se o problema persistir, recarregue a página.
+          Tente de novo. Se continuar travando, recarregue a base e retome por aqui.
         </p>
       </div>
       <div className="flex gap-2">

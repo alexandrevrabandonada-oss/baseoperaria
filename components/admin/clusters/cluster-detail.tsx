@@ -12,7 +12,7 @@ import { AdminStatusBanner } from "@/components/admin/admin-status-banner";
 import { buttonVariants } from "@/components/ui/button";
 import type { ClusterDetailContext } from "@/lib/supabase/clusters";
 import { cn } from "@/lib/utils";
-import { clusterStatusOptions } from "@/types/clusters";
+import { labelClusterStatus } from "@/types/clusters";
 
 type ClusterDetailViewProps = {
   context: ClusterDetailContext;
@@ -99,7 +99,7 @@ function AssociationForm({
             defaultValue=""
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
           >
-            <option value="">{items.length > 0 ? "Selecione um item" : emptyLabel}</option>
+            <option value="">{items.length > 0 ? "Escolha um item para vincular" : emptyLabel}</option>
             {items.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.meta ? `${item.label} · ${item.meta}` : item.label}
@@ -159,7 +159,7 @@ function LinkedItemCard({
             </p>
           </div>
           <Link href={href} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
-            Abrir
+            Ver item
           </Link>
         </div>
 
@@ -171,7 +171,7 @@ function LinkedItemCard({
           <input type="hidden" name="company_id" value={companyId} />
           <input type="hidden" name={idField} value={itemId} />
           <button type="submit" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
-            Remover vínculo
+            Soltar do cluster
           </button>
         </form>
       </div>
@@ -181,8 +181,7 @@ function LinkedItemCard({
 
 export function ClusterDetailView({ context, currentUserId, status }: ClusterDetailViewProps) {
   const returnTo = `/admin/clusters?company_id=${context.companyId}`;
-  const statusLabel =
-    clusterStatusOptions.find((option) => option.code === context.status)?.label ?? context.status;
+  const statusLabel = labelClusterStatus(context.status);
   const dateLabel = new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "medium",
     timeStyle: "short",
@@ -205,7 +204,7 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
             </div>
             <div className="flex flex-col gap-2 sm:flex-row">
               <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
-                Voltar
+                Voltar aos clusters
               </Link>
               <Link
                 href={`/pautas/nova?cluster_id=${context.id}`}
@@ -219,7 +218,7 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
           {context.summary ? (
             <p className="text-sm leading-6 text-muted-foreground">{context.summary}</p>
           ) : (
-            <p className="text-sm leading-6 text-muted-foreground">Sem descrição.</p>
+            <p className="text-sm leading-6 text-muted-foreground">Sem resumo registrado.</p>
           )}
 
           <p className="text-xs text-muted-foreground">
@@ -243,7 +242,7 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
         companyName={context.companyName}
         description="Edite título, descrição, categoria e status sem alterar a estrutura do vínculo."
         returnTo={returnTo}
-        submitLabel="Salvar cluster"
+        submitLabel="Registrar ajuste"
         title="Editar cluster"
       />
 
@@ -272,11 +271,12 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
               label="Total consolidado"
               value={String(context.linkCount)}
               hint="Soma simples entre os dois fluxos."
+              
             />
             <SignalCard
               label="Tipo de ponte"
               value={context.scopeLabel}
-              hint={context.categoryLabel ? `Baseado em ${context.categoryLabel}` : "Derivado dos vínculos"}
+              hint={context.categoryLabel ? `Baseado em ${context.categoryLabel}` : "Puxado dos vínculos já reunidos"}
             />
           </div>
         </div>
@@ -287,12 +287,12 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
           <div className="flex flex-col gap-2">
             <h2 className="text-base font-semibold">Relatos vinculados</h2>
             <p className="text-sm text-muted-foreground">
-              Moderadores podem amarrar relatos de condições ao mesmo agrupamento manualmente.
+                Aqui você amarra relatos de trabalho ao mesmo agrupamento quando o problema bate com o resto.
             </p>
           </div>
 
           {context.linkedReports.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Nenhum relato de condições vinculado.</p>
+            <p className="text-sm text-muted-foreground">Nenhum relato de trabalho foi ligado a esse cluster.</p>
           ) : (
             <div className="grid gap-3">
               {context.linkedReports.map((item) => (
@@ -325,12 +325,12 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
             action={attachReportToClusterAction}
             clusterId={context.id}
             companyId={context.companyId}
-            emptyLabel="Nenhum relato disponível para vincular"
+            emptyLabel="Nenhum relato disponível para ligar"
             items={context.availableReports}
             name="report_id"
             returnTo={returnTo}
-            submitLabel="Vincular relato"
-            title="Selecionar relato"
+            submitLabel="Ligar relato"
+            title="Escolher relato"
           />
         </div>
       </section>
@@ -340,13 +340,13 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
           <div className="flex flex-col gap-2">
             <h2 className="text-base font-semibold">Registros econômicos vinculados</h2>
             <p className="text-sm text-muted-foreground">
-              O mesmo cluster pode concentrar sinais econômicos sem duplicar arquitetura.
+                O mesmo cluster também pode segurar sinais econômicos sem dividir o acúmulo em dois lados.
             </p>
           </div>
 
           {context.linkedEconomicReports.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              Nenhum registro econômico vinculado.
+              Nenhum registro econômico foi ligado a esse cluster.
             </p>
           ) : (
             <div className="grid gap-3">
@@ -380,12 +380,12 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
             action={attachEconomicReportToClusterAction}
             clusterId={context.id}
             companyId={context.companyId}
-            emptyLabel="Nenhum registro econômico disponível para vincular"
+            emptyLabel="Nenhum registro econômico disponível para ligar"
             items={context.availableEconomicReports}
             name="economic_report_id"
             returnTo={returnTo}
-            submitLabel="Vincular registro"
-            title="Selecionar registro econômico"
+            submitLabel="Ligar registro"
+            title="Escolher registro econômico"
           />
         </div>
       </section>
@@ -393,10 +393,10 @@ export function ClusterDetailView({ context, currentUserId, status }: ClusterDet
       {context.canViewModerationTrail ? (
         <ModerationAuditTrail
           currentUserId={currentUserId}
-          description="Histórico interno de vínculos, revisões e arquivamentos deste cluster."
-          emptyLabel="Nenhuma ação de moderação registrada para este cluster."
+          description="Histórico interno do que foi ligado, revisto, marcado e arquivado nesse cluster."
+          emptyLabel="Nenhuma ação de moderação foi registrada para esse cluster."
           events={context.moderationEvents}
-          title="Trilha de auditoria"
+          title="Rastro de moderação"
         />
       ) : null}
     </div>

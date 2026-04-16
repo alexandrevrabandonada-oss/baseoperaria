@@ -25,15 +25,14 @@ export default async function OnboardingPage({
   }
 
   return (
-    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-2xl border bg-card p-6 shadow-sm">
+    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-[0_20px_48px_rgb(0_0_0_/_0.34)] sm:p-7">
       <header className="flex flex-col gap-2">
-        <p className="text-sm font-medium text-muted-foreground">Onboarding</p>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Complete seu acesso inicial
+        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/85">Cadastro inicial</p>
+        <h1 className="text-3xl font-bold uppercase tracking-[0.04em] text-foreground">
+          Feche sua entrada na base
         </h1>
-        <p className="text-sm text-muted-foreground">
-          Pedimos só o essencial para abrir a sua sessão sem coletar dados
-          sensíveis.
+        <p className="text-sm leading-6 text-muted-foreground">
+          Pedimos só o necessário para liberar sua entrada sem recolher dado sensível.
         </p>
       </header>
 
@@ -51,12 +50,12 @@ export default async function OnboardingPage({
             maxLength={40}
             defaultValue={auth.profile?.pseudonym ?? ""}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Como você quer ser identificado(a)"
+            placeholder="Como você quer aparecer na base"
           />
         </label>
 
         <label className="flex flex-col gap-2 text-sm font-medium">
-          Vínculo inicial
+          Vínculo de base
           <input
             type="text"
             name="initialLink"
@@ -65,7 +64,7 @@ export default async function OnboardingPage({
             maxLength={60}
             defaultValue={auth.profile?.initial_link ?? ""}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Ex.: território, trabalho, apoio"
+            placeholder="Ex.: setor, turno, território ou apoio"
           />
         </label>
 
@@ -75,7 +74,7 @@ export default async function OnboardingPage({
         </p>
 
         <Button type="submit" className="w-full">
-          Concluir onboarding
+          Liberar entrada
         </Button>
       </form>
     </section>

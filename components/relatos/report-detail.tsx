@@ -53,7 +53,7 @@ export function ReportDetail({ currentUserId, report }: ReportDetailProps) {
               href={`/relatos/meus?company_id=${report.companyId}`}
               className={cn(buttonVariants({ variant: "outline" }))}
             >
-              Voltar
+              Voltar para meus relatos
             </Link>
           </div>
 
@@ -100,7 +100,7 @@ export function ReportDetail({ currentUserId, report }: ReportDetailProps) {
         <div className="flex flex-col gap-3">
           <h2 className="text-base font-semibold">Anexos</h2>
           {report.attachments.length === 0 ? (
-            <p className="text-sm text-muted-foreground">Nenhum anexo foi enviado com este relato.</p>
+            <p className="text-sm text-muted-foreground">Nenhuma prova foi enviada com esse relato.</p>
           ) : (
             <ul className="flex flex-col gap-2">
               {report.attachments.map((attachment) => (
@@ -135,7 +135,7 @@ export function ReportDetail({ currentUserId, report }: ReportDetailProps) {
         <ModerationAuditTrail
           currentUserId={currentUserId}
           description="Histórico interno de revisão e sinalização deste relato."
-          emptyLabel="Nenhuma ação de moderação registrada para este relato."
+          emptyLabel="Nenhuma ação de moderação foi registrada para esse relato."
           events={report.moderationEvents}
           title="Trilha de auditoria"
         />

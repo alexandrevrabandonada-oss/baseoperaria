@@ -20,7 +20,7 @@ function SubmitButton() {
 
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? "Salvando..." : "Salvar encaminhamento"}
+      {pending ? "Registrando..." : "Registrar encaminhamento"}
     </Button>
   );
 }
@@ -101,7 +101,7 @@ export function NucleusActionForm({
             minLength={2}
             maxLength={120}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Resumo curto do encaminhamento"
+            placeholder="Resumo curto do que precisa ser feito"
           />
         </label>
 
@@ -112,7 +112,7 @@ export function NucleusActionForm({
             maxLength={240}
             rows={3}
             className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Informação objetiva, sem comentário livre."
+            placeholder="Informação objetiva para registrar a ação desse núcleo."
           />
         </label>
 
@@ -120,7 +120,7 @@ export function NucleusActionForm({
           label="Tipo"
           name="action_type"
           options={actionTypeOptions}
-          placeholder="Selecione o tipo"
+          placeholder="Escolha o tipo de ação"
           required
           defaultValue="other"
         />
@@ -129,7 +129,7 @@ export function NucleusActionForm({
           label="Status"
           name="status"
           options={statusOptions}
-          placeholder="Selecione o status"
+          placeholder="Escolha a situação da ação"
           required
           defaultValue="planned"
         />
@@ -138,14 +138,13 @@ export function NucleusActionForm({
           label="Pauta vinculada"
           name="demand_id"
           options={demandOptions}
-          placeholder="Sem pauta vinculada"
+          placeholder="Sem pauta ligada"
         />
       </div>
 
       <section className="rounded-2xl border bg-card p-4">
         <p className="text-sm text-muted-foreground">
-          Os encaminhamentos ficam restritos ao núcleo e podem apontar para uma pauta já existente
-          sem criar espaço de conversa.
+          O encaminhamento fica restrito ao núcleo e pode puxar uma pauta já existente sem abrir conversa paralela.
         </p>
       </section>
 

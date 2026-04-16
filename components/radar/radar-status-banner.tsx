@@ -1,11 +1,32 @@
+import { StatusBanner } from "@/components/ui/status-banner";
+
 type RadarStatusBannerProps = {
   status?: string | undefined;
 };
 
-const statusCopy: Record<string, string> = {
-  erro: "Não foi possível carregar o radar agora.",
-  "sem-dados": "Ainda não há sinais suficientes para montar um radar útil neste recorte.",
-  "sem-empresa": "Selecione uma empresa para ler o radar coletivo.",
+const statusCopy: Record<
+  string,
+  {
+    kind: "error" | "info" | "success" | "warning";
+    message: string;
+    title: string;
+  }
+> = {
+  erro: {
+    kind: "error",
+    message: "Não conseguimos abrir o radar agora.",
+    title: "Falha no radar",
+  },
+  "sem-dados": {
+    kind: "info",
+    message: "Ainda não há acúmulo suficiente para montar leitura nesse recorte.",
+    title: "Sem base consolidada",
+  },
+  "sem-empresa": {
+    kind: "info",
+    message: "Escolha uma empresa para abrir essa leitura da base.",
+    title: "Selecione a empresa",
+  },
 };
 
 export function RadarStatusBanner({ status }: RadarStatusBannerProps) {
@@ -13,9 +34,7 @@ export function RadarStatusBanner({ status }: RadarStatusBannerProps) {
     return null;
   }
 
-  return (
-    <div className="rounded-xl border border-border bg-muted px-4 py-3 text-sm text-muted-foreground">
-      {statusCopy[status]}
-    </div>
-  );
+  const entry = statusCopy[status];
+
+  return <StatusBanner kind={entry.kind} message={entry.message} title={entry.title} />;
 }

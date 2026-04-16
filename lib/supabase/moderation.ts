@@ -6,7 +6,7 @@ import { getAuthContext } from "@/lib/supabase/queries";
 import { createClient } from "@/lib/supabase/server";
 import type { Json, CompanyRole, Database, ReportStatus } from "@/lib/supabase/types";
 import {
-  moderationActionOptions,
+  labelModerationAction,
   moderationEntityLabels,
   type ModerationActionCode,
 } from "@/types/moderation";
@@ -110,7 +110,7 @@ function mapRowsByCode<T extends { code: string }>(rows: T[] | null | undefined)
 }
 
 function labelAction(actionCode: string) {
-  return moderationActionOptions.find((option) => option.code === actionCode)?.label ?? actionCode;
+  return labelModerationAction(actionCode as ModerationActionCode);
 }
 
 function labelEntity(entityType: string) {

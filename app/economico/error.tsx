@@ -18,10 +18,10 @@ export default function EconomicError({ error, reset }: EconomicErrorProps) {
     <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
       <div className="flex flex-col gap-2">
         <h2 className="text-lg font-semibold tracking-tight">
-          Falha ao carregar registros econômicos
+          Não foi possível puxar a frente econômica
         </h2>
         <p className="text-sm text-muted-foreground">
-          Tente novamente. Se o problema persistir, recarregue a página.
+          Tente de novo. Se continuar travando, recarregue a base e refaça a leitura.
         </p>
       </div>
       <div className="flex gap-2">

@@ -12,7 +12,8 @@ import type {
   DemandStatus,
   LookupRow,
 } from "@/lib/supabase/types";
-import { pautaKindOptions, pautaStatusOptions } from "@/types/pautas";
+import { labelClusterScope } from "@/types/clusters";
+import { labelPautaKind, labelPautaStatus, pautaStatusOptions } from "@/types/pautas";
 import type { ClusterDetailContext } from "@/lib/supabase/clusters";
 
 export type PautaCompanyOption = {
@@ -126,11 +127,11 @@ function mapLookupRows<T extends { code: string }>(rows: T[] | null | undefined)
 }
 
 function labelDemandKind(kind: DemandKind) {
-  return pautaKindOptions.find((option) => option.code === kind)?.label ?? kind;
+  return labelPautaKind(kind);
 }
 
 function labelDemandStatus(status: DemandStatus) {
-  return pautaStatusOptions.find((option) => option.code === status)?.label ?? status;
+  return labelPautaStatus(status);
 }
 
 function inferDemandKind(cluster: ClusterDetailContext): DemandKind {
@@ -412,11 +413,11 @@ export const getPautaDetailContext = cache(async (demandId: string) => {
     cluster.reportLinkCount = reportLinksResult.data?.length ?? 0;
     cluster.economicLinkCount = economicLinksResult.data?.length ?? 0;
     if (cluster.reportLinkCount > 0 && cluster.economicLinkCount > 0) {
-      cluster.scopeLabel = "Misto";
+      cluster.scopeLabel = labelClusterScope("mixed");
     } else if (cluster.economicLinkCount > 0) {
-      cluster.scopeLabel = "Econômico";
+      cluster.scopeLabel = labelClusterScope("economic");
     } else {
-      cluster.scopeLabel = "Condição";
+      cluster.scopeLabel = labelClusterScope("conditions");
     }
   }
 

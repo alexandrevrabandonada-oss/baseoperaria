@@ -110,14 +110,14 @@ export function ClusterForm({
           className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
         >
           <option value="">Sem categoria</option>
-          <optgroup label="Condições">
+          <optgroup label="Condições de trabalho">
             {groupedCategories.conditions.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.label}
               </option>
             ))}
           </optgroup>
-          <optgroup label="Econômico">
+          <optgroup label="Pauta econômica">
             {groupedCategories.economic.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.label}

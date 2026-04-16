@@ -53,7 +53,7 @@ export function EconomicReportDetail({ currentUserId, report }: EconomicReportDe
               href={`/economico/meus?company_id=${report.companyId}`}
               className={cn(buttonVariants({ variant: "outline" }))}
             >
-              Voltar
+              Voltar para meus registros
             </Link>
           </div>
 
@@ -73,7 +73,7 @@ export function EconomicReportDetail({ currentUserId, report }: EconomicReportDe
         <DetailRow label="Cargo formal" value={report.formalRole} />
         <DetailRow label="Função real" value={report.realFunction} />
         <DetailRow label="Faixa salarial" value={report.salaryBandLabel} />
-        <DetailRow label="Problema econômico" value={report.issueTypeLabel} />
+        <DetailRow label="Frente econômica" value={report.issueTypeLabel} />
         <DetailRow label="Gravidade" value={report.severityLabel} />
       </section>
 
@@ -121,7 +121,7 @@ export function EconomicReportDetail({ currentUserId, report }: EconomicReportDe
           <h2 className="text-base font-semibold">Anexos</h2>
           {report.attachments.length === 0 ? (
             <p className="text-sm text-muted-foreground">
-              Nenhum anexo foi enviado com este registro.
+              Nenhuma prova foi enviada com esse registro.
             </p>
           ) : (
             <ul className="flex flex-col gap-2">
@@ -156,8 +156,8 @@ export function EconomicReportDetail({ currentUserId, report }: EconomicReportDe
       {report.canViewModerationTrail ? (
         <ModerationAuditTrail
           currentUserId={currentUserId}
-          description="Histórico interno de revisão e sinalização deste registro econômico."
-          emptyLabel="Nenhuma ação de moderação registrada para este registro."
+          description="Histórico interno de revisão e marcação deste registro econômico."
+          emptyLabel="Nenhuma ação de moderação foi registrada para esse registro."
           events={report.moderationEvents}
           title="Trilha de auditoria"
         />

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CompanyChips } from "@/components/relatos/company-chips";
 import { buttonVariants } from "@/components/ui/button";
 import type { PautaListContext } from "@/lib/supabase/pautas";
-import { pautaStatusOptions } from "@/types/pautas";
+import { labelPautaStatus } from "@/types/pautas";
 import { cn } from "@/lib/utils";
 import { PautasEmptyState } from "@/components/pautas/pautas-empty-state";
 import { PautasStatusBanner } from "@/components/pautas/pautas-status-banner";
@@ -14,7 +14,7 @@ type PautasListViewProps = {
 };
 
 function statusLabel(status: string) {
-  return pautaStatusOptions.find((option) => option.code === status)?.label ?? status;
+  return labelPautaStatus(status as Parameters<typeof labelPautaStatus>[0]);
 }
 
 export function PautasListView({ context, status }: PautasListViewProps) {
@@ -22,9 +22,9 @@ export function PautasListView({ context, status }: PautasListViewProps) {
     return (
       <PautasEmptyState
         title="Nenhuma empresa disponível"
-        description="Você precisa estar vinculado a uma empresa para ver pautas."
+        description="Você precisa estar ligado a uma empresa para enxergar as pautas da base."
         href="/onboarding"
-        actionLabel="Voltar ao onboarding"
+        actionLabel="Fechar cadastro"
       />
     );
   }
@@ -39,7 +39,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
         />
         <PautasEmptyState
           title="Escolha uma empresa"
-          description="As pautas são organizadas por empresa. Selecione uma acima para continuar."
+          description="As pautas são separadas por empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -50,10 +50,9 @@ export function PautasListView({ context, status }: PautasListViewProps) {
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Pautas</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Agenda prática do coletivo</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Pautas que saem do problema e ganham forma</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            As pautas consolidam clusters em uma peça objetiva, com tipo, prioridade, status e
-            apoio simples de membros autenticados.
+            Aqui o acúmulo vira pauta com prioridade, situação e apoio de quem faz parte da base.
           </p>
         </div>
       </section>
@@ -69,8 +68,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
       <section className="rounded-2xl border bg-card p-4">
         <div className="flex flex-col gap-3">
           <p className="text-sm leading-6 text-muted-foreground">
-            Moderadores criam pautas a partir dos clusters na área administrativa. O fluxo do
-            trabalhador comum fica apenas para leitura e apoio.
+            A pauta nasce do cluster. Quem está na base acompanha, lê e apoia sem perder o foco no que precisa ser enfrentado.
           </p>
           {context.selectedCompany.role === "owner" || context.selectedCompany.role === "admin" ? (
             <Link
@@ -88,7 +86,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
         {context.demands.length === 0 ? (
           <PautasEmptyState
             title="Nenhuma pauta ainda"
-            description="Quando um moderador transformar um cluster em pauta, ela aparecerá aqui."
+            description="Quando um problema agrupado virar pauta, ele aparece aqui para leitura e apoio."
           />
         ) : (
           <div className="grid gap-3">
@@ -99,7 +97,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
                     <div className="flex min-w-0 flex-col gap-1">
                       <h2 className="text-base font-semibold">{demand.title}</h2>
                       <p className="text-xs text-muted-foreground">
-                        {demand.kindLabel} · {demand.priorityLabel ?? "Sem prioridade"}
+                        {demand.kindLabel} · {demand.priorityLabel ?? "Sem prioridade definida"}
                       </p>
                     </div>
                     <span className="rounded-full border px-2 py-1 text-xs text-muted-foreground">
@@ -122,19 +120,19 @@ export function PautasListView({ context, status }: PautasListViewProps) {
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Unidade
                       </p>
-                      <p className="mt-1 text-sm font-semibold">{demand.unitName ?? "Sem unidade"}</p>
+                      <p className="mt-1 text-sm font-semibold">{demand.unitName ?? "Sem recorte de unidade"}</p>
                     </div>
                     <div className="rounded-xl border bg-background p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Setor
                       </p>
-                      <p className="mt-1 text-sm font-semibold">{demand.sectorName ?? "Sem setor"}</p>
+                      <p className="mt-1 text-sm font-semibold">{demand.sectorName ?? "Sem recorte de setor"}</p>
                     </div>
                     <div className="rounded-xl border bg-background p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Cluster
                       </p>
-                      <p className="mt-1 text-sm font-semibold">{demand.clusterTitle ?? "Sem cluster"}</p>
+                      <p className="mt-1 text-sm font-semibold">{demand.clusterTitle ?? "Sem cluster ligado"}</p>
                     </div>
                   </div>
 
@@ -143,7 +141,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
                       href={demand.href}
                       className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                     >
-                      Abrir
+                      Ver pauta
                     </Link>
                   </div>
                 </div>

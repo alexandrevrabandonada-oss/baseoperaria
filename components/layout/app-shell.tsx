@@ -15,16 +15,18 @@ export async function AppShell({ children }: AppShellProps) {
   const isAdminRoute = pathname.startsWith("/admin");
 
   if (isAdminRoute) {
-    return <AdminShell>{children}</AdminShell>;
+    return <AdminShell pathname={pathname}>{children}</AdminShell>;
   }
 
   return (
-    <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col">
-      <SiteHeader />
-      <main className="flex-1 px-4 pb-24 pt-6 sm:px-6 sm:pb-10">
-        {children}
-      </main>
-      <MobileBottomNav />
+    <div className="relative min-h-dvh overflow-x-clip">
+      <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col sm:px-4">
+        <SiteHeader pathname={pathname} />
+        <main className="flex-1 px-4 pb-28 pt-6 sm:px-6 sm:pb-12 sm:pt-8">
+          {children}
+        </main>
+        <MobileBottomNav pathname={pathname} />
+      </div>
     </div>
   );
 }

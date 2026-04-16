@@ -59,5 +59,5 @@ export default async function AdminSectionPage({
     redirect("/admin/clusters");
   }
 
-  return <AdminEmptyState title="Seção indisponível" description="Volte para a área administrativa." />;
+  return <AdminEmptyState title="Seção fora do ar" description="Volte para a área administrativa e abra outra frente." />;
 }

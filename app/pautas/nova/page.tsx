@@ -30,8 +30,7 @@ export default async function PautaNovaPage({ searchParams }: PautaNovaPageProps
             <p className="text-sm font-medium text-muted-foreground">Nova pauta</p>
             <h1 className="text-3xl font-semibold tracking-tight">Criar a partir de um cluster</h1>
             <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-              A pauta nasce da área de clusters, onde o moderador já enxerga o conjunto de sinais
-              antes de transformar o caso em uma agenda objetiva.
+              A pauta nasce do cluster, quando o conjunto de sinais já aponta um problema que precisa virar reivindicação organizada.
             </p>
           </div>
         </section>
@@ -40,7 +39,7 @@ export default async function PautaNovaPage({ searchParams }: PautaNovaPageProps
 
         <PautasEmptyState
           title="Selecione um cluster"
-          description="Abra um cluster na área administrativa e use a ação de criar pauta para continuar."
+          description="Abra um cluster na área administrativa e use a ação de criar pauta para seguir."
           href="/admin/clusters"
           actionLabel="Abrir clusters"
         />
@@ -56,7 +55,7 @@ export default async function PautaNovaPage({ searchParams }: PautaNovaPageProps
         <PautasStatusBanner status={params.status} />
         <PautasEmptyState
           title="Cluster indisponível"
-          description="Não foi possível carregar este cluster para criação de pauta."
+          description="Não conseguimos puxar esse cluster para abrir a pauta."
           href="/admin/clusters"
           actionLabel="Voltar aos clusters"
         />
@@ -71,8 +70,7 @@ export default async function PautaNovaPage({ searchParams }: PautaNovaPageProps
           <p className="text-sm font-medium text-muted-foreground">Nova pauta</p>
           <h1 className="text-3xl font-semibold tracking-tight">Criar a partir de um cluster</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            O formulário fica curto: título, texto objetivo, tipo, prioridade, status e recorte
-            organizacional quando fizer sentido.
+            O formulário fica curto: título, texto direto, prioridade, situação e recorte de organização quando fizer sentido.
           </p>
         </div>
       </section>

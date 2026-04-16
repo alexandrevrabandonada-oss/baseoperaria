@@ -35,7 +35,7 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
     return (
       <AdminEmptyState
         title="Nenhuma empresa administrativa"
-        description="Cadastre ou vincule uma empresa como owner/admin para começar a organizar unidades."
+        description="Tenha administração em uma empresa para começar a organizar as unidades da base."
       />
     );
   }
@@ -50,7 +50,7 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
         />
         <AdminEmptyState
           title="Escolha uma empresa"
-          description="As unidades ficam vinculadas a uma empresa. Selecione uma acima para continuar."
+          description="As unidades ficam presas a uma empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -73,9 +73,9 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Unidades</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Base operacional da empresa</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Unidades que organizam a base</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Cadastre unidades simples e mantenha o fluxo enxuto para o piloto.
+            Abra as unidades que ajudam a separar leitura, relato e organização dentro da empresa.
           </p>
         </div>
       </section>
@@ -117,7 +117,7 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
                 maxLength={80}
                 defaultValue={editingUnit?.code ?? ""}
                 className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                placeholder="Opcional; gerado se vazio"
+                placeholder="Gerado automaticamente se ficar vazio"
               />
             </label>
           </div>
@@ -130,13 +130,13 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
               rows={3}
               defaultValue={editingUnit?.description ?? ""}
               className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-              placeholder="Opcional"
+              placeholder="Resumo curto dessa unidade na organização"
             />
           </label>
 
           <div className="flex flex-wrap gap-2">
             <button type="submit" className={cn(buttonVariants())}>
-              {editingUnit ? "Salvar unidade" : "Criar unidade"}
+              {editingUnit ? "Registrar ajuste na unidade" : "Abrir unidade"}
             </button>
             {editingUnit ? (
               <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
@@ -175,7 +175,7 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
                         href={`${returnTo}&edit=${unit.id}`}
                         className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                       >
-                        Editar
+                        Ajustar
                       </Link>
 
                       <form action={toggleUnitActiveAction}>
@@ -202,9 +202,9 @@ export async function UnitAdminSection({ companyId, editId, status }: UnitAdminS
           ) : (
             <AdminEmptyState
               title="Nenhuma unidade cadastrada"
-              description="Crie a primeira unidade para organizar relatos e registros."
+              description="Abra a primeira unidade para separar os registros dentro da empresa."
               actionHref={returnTo}
-              actionLabel="Criar unidade"
+              actionLabel="Abrir unidade"
             />
           )}
         </div>

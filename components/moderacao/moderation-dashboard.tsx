@@ -63,7 +63,7 @@ function ClusterLinkForm({
           required
           className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
         >
-          <option value="">Vincular a cluster</option>
+          <option value="">Escolha o cluster para agrupar</option>
           {clusterOptions.map((cluster) => (
             <option key={cluster.id} value={cluster.id}>
               {cluster.label} {cluster.meta ? `· ${cluster.meta}` : ""}
@@ -72,7 +72,7 @@ function ClusterLinkForm({
         </select>
 
         <button type="submit" className={cn(buttonVariants({ size: "default" }), "w-full sm:w-auto")}>
-          Vincular
+          Amarrar ao cluster
         </button>
       </div>
     </form>
@@ -121,7 +121,7 @@ function ReviewCard({
           </div>
 
           <Link href={href} className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
-            Abrir
+            Ver item
           </Link>
         </div>
 
@@ -206,7 +206,7 @@ function AttachmentCard({
           <input type="hidden" name="attachment_kind" value={item.kindLabel === "Relato" ? "report_attachment" : "economic_report_attachment"} />
           <input type="hidden" name="return_to" value={returnTo} />
           <button type="submit" className={cn(buttonVariants({ variant: "outline", size: "sm" }))}>
-            Sinalizar anexo
+            Sinalizar prova
           </button>
         </form>
       </div>
@@ -229,8 +229,7 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
               </p>
               <h1 className="text-3xl font-semibold tracking-tight">Revisão inicial</h1>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                Área mínima para revisar relatos, registros econômicos e anexos, vincular itens a
-                clusters e registrar toda ação crítica.
+                Área para revisar relatos, registros econômicos e provas, amarrar sinais em cluster e deixar rastro de cada ação crítica.
               </p>
             </div>
 
@@ -259,9 +258,9 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
 
         <section className="rounded-2xl border border-dashed border-border bg-card p-6">
           <div className="flex flex-col gap-2">
-            <h2 className="text-base font-semibold">Selecione uma empresa</h2>
+            <h2 className="text-base font-semibold">Escolha uma empresa</h2>
             <p className="text-sm text-muted-foreground">
-              Você precisa de vínculo como moderator ou admin para revisar conteúdo desta área.
+              Você precisa ter moderação ou administração em uma empresa para revisar o material desta área.
             </p>
           </div>
         </section>
@@ -320,12 +319,12 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
             <div className="flex flex-col gap-2">
               <h2 className="text-base font-semibold">Relatos em revisão</h2>
               <p className="text-sm text-muted-foreground">
-                Sinalize, arquive ou vincule cada item a um cluster.
+                Aqui você sinaliza, arquiva ou agrupa cada relato no cluster certo.
               </p>
             </div>
 
             {context.reports.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Nenhum relato pendente para revisão.</p>
+              <p className="text-sm text-muted-foreground">Nenhum relato está esperando revisão agora.</p>
             ) : (
               <div className="grid gap-3">
                 {context.reports.map((item) => (
@@ -343,7 +342,7 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
                       item.shiftName ?? "",
                       item.categoryLabel ?? "",
                       item.severityLabel ?? "",
-                      item.clusterCount > 0 ? `${item.clusterCount} cluster(s)` : "Sem cluster",
+                      item.clusterCount > 0 ? `${item.clusterCount} cluster(s)` : "Sem cluster ligado",
                     ]}
                     itemTitle={item.title}
                     returnTo={returnTo}
@@ -360,13 +359,13 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
             <div className="flex flex-col gap-2">
               <h2 className="text-base font-semibold">Registros econômicos em revisão</h2>
               <p className="text-sm text-muted-foreground">
-                O mesmo fluxo vale para a pauta econômica, sem criar uma arquitetura paralela.
+                O mesmo circuito vale para a pauta econômica, sem abrir uma estrutura separada.
               </p>
             </div>
 
             {context.economicReports.length === 0 ? (
               <p className="text-sm text-muted-foreground">
-                Nenhum registro econômico pendente para revisão.
+                Nenhum registro econômico está esperando revisão agora.
               </p>
             ) : (
               <div className="grid gap-3">
@@ -388,7 +387,7 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
                       item.issueTypeLabel ?? "",
                       item.formalRole ?? "",
                       item.realFunction ?? "",
-                      item.clusterCount > 0 ? `${item.clusterCount} cluster(s)` : "Sem cluster",
+                      item.clusterCount > 0 ? `${item.clusterCount} cluster(s)` : "Sem cluster ligado",
                     ]}
                     itemTitle={item.title}
                     returnTo={returnTo}
@@ -405,13 +404,12 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
             <div className="flex flex-col gap-2">
               <h2 className="text-base font-semibold">Anexos recentes</h2>
               <p className="text-sm text-muted-foreground">
-                Revisar anexos é apenas conferir e registrar a sinalização, sem expor material
-                sensível além do necessário.
+                Revisar prova é conferir o material e registrar sinalização sem expor mais do que precisa.
               </p>
             </div>
 
             {context.attachments.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Nenhum anexo recente encontrado.</p>
+              <p className="text-sm text-muted-foreground">Nenhuma prova recente apareceu aqui.</p>
             ) : (
               <div className="grid gap-3">
                 {context.attachments.map((item) => (
@@ -429,10 +427,10 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
 
         <ModerationAuditTrail
           currentUserId={context.userId}
-          description="Trilha recente das ações registradas para a empresa selecionada."
-          emptyLabel="Nenhuma ação de moderação registrada ainda."
+          description="Trilha recente do que foi marcado, arquivado, ligado e revisto nessa empresa."
+          emptyLabel="Ainda não houve ação de moderação registrada aqui."
           events={context.recentEvents}
-          title="Auditoria recente"
+          title="Rastro recente"
         />
       </>
     </div>

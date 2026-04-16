@@ -27,9 +27,9 @@ export default async function MeusEconomicReportsPage({
     <div className="flex flex-col gap-6">
       <section className="flex flex-col gap-3">
         <p className="text-sm font-medium text-muted-foreground">Meus registros econômicos</p>
-        <h1 className="text-3xl font-semibold tracking-tight">Acompanhamento dos seus envios</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">Seus registros econômicos na base</h1>
         <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-          Aqui aparecem apenas os registros econômicos criados por você.
+          Aqui aparecem só os registros que você abriu nessa frente, com confirmação, prova e acompanhamento.
         </p>
       </section>
 
@@ -51,12 +51,12 @@ export default async function MeusEconomicReportsPage({
               : "/economico/novo"
           }
           title="Nenhum registro criado por você"
-          description="Crie o primeiro registro para acompanhar o histórico, as confirmações e os anexos em um fluxo privado."
+          description="Abra seu primeiro registro para acompanhar prova, confirmação e histórico dentro da base."
         />
       ) : (
         <EconomicEmptyState
           title="Sem empresa vinculada"
-          description="Você precisa estar vinculado a uma empresa antes de criar ou acompanhar registros econômicos."
+          description="Você precisa estar ligado a uma empresa antes de abrir ou acompanhar registro nessa frente."
         />
       )}
     </div>

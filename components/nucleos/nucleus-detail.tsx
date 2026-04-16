@@ -7,7 +7,11 @@ import { NucleosStatusBanner } from "@/components/nucleos/nucleos-status-banner"
 import { buttonVariants } from "@/components/ui/button";
 import type { NucleusDetailContext } from "@/lib/supabase/nucleos";
 import { cn } from "@/lib/utils";
-import { nucleusActionStatusOptions, nucleusActionTypeOptions, nucleusMemberRoleOptions } from "@/types/nucleos";
+import {
+  labelNucleusActionStatus,
+  labelNucleusActionType,
+  labelNucleusMemberRole,
+} from "@/types/nucleos";
 
 type NucleusDetailViewProps = {
   context: NucleusDetailContext;
@@ -69,15 +73,15 @@ function SectionHeader({
 }
 
 function memberRoleLabel(role: string) {
-  return nucleusMemberRoleOptions.find((option) => option.code === role)?.label ?? role;
+  return labelNucleusMemberRole(role as Parameters<typeof labelNucleusMemberRole>[0]);
 }
 
 function actionStatusLabel(status: string) {
-  return nucleusActionStatusOptions.find((option) => option.code === status)?.label ?? status;
+  return labelNucleusActionStatus(status as Parameters<typeof labelNucleusActionStatus>[0]);
 }
 
 function actionTypeLabel(actionType: string) {
-  return nucleusActionTypeOptions.find((option) => option.code === actionType)?.label ?? actionType;
+  return labelNucleusActionType(actionType as Parameters<typeof labelNucleusActionType>[0]);
 }
 
 export function NucleusDetailView({ context, status }: NucleusDetailViewProps) {
@@ -104,14 +108,14 @@ export function NucleusDetailView({ context, status }: NucleusDetailViewProps) {
               <h1 className="text-3xl font-semibold tracking-tight">{context.title}</h1>
             </div>
             <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
-              Voltar
+              Voltar para núcleos
             </Link>
           </div>
 
           {context.description ? (
             <p className="text-sm leading-6 text-muted-foreground">{context.description}</p>
           ) : (
-            <p className="text-sm leading-6 text-muted-foreground">Sem descrição.</p>
+            <p className="text-sm leading-6 text-muted-foreground">Sem resumo registrado para esse núcleo.</p>
           )}
 
           <p className="text-xs text-muted-foreground">
@@ -233,7 +237,7 @@ export function NucleusDetailView({ context, status }: NucleusDetailViewProps) {
         <div className="flex flex-col gap-4">
           <SectionHeader
             title="Encaminhamentos simples"
-            description="Ações objetivas para acompanhar o núcleo, sem comentários livres ou feed."
+            description="Ações diretas para tocar o núcleo sem comentário solto nem feed."
           />
 
           {canManage ? (

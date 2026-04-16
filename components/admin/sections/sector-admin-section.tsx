@@ -35,7 +35,7 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
     return (
       <AdminEmptyState
         title="Nenhuma empresa administrativa"
-        description="Cadastre ou vincule uma empresa como owner/admin para começar a organizar setores."
+        description="Tenha administração em uma empresa para começar a organizar os setores da base."
       />
     );
   }
@@ -50,7 +50,7 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
         />
         <AdminEmptyState
           title="Escolha uma empresa"
-          description="Os setores ficam vinculados a uma empresa. Selecione uma acima para continuar."
+          description="Os setores ficam presos a uma empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -82,9 +82,9 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Setores</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Recortes internos simples</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Setores para ler o problema com precisão</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Os setores ajudam a organizar o mapeamento sem criar complexidade desnecessária.
+            Os setores ajudam a localizar o problema sem inflar a estrutura com cadastro demais.
           </p>
         </div>
       </section>
@@ -126,7 +126,7 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
                 maxLength={80}
                 defaultValue={editingSector?.code ?? ""}
                 className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                placeholder="Opcional; gerado se vazio"
+                placeholder="Gerado automaticamente se ficar vazio"
               />
             </label>
           </div>
@@ -138,7 +138,7 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
               defaultValue={editingSector?.unit_id ?? ""}
               className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
             >
-              <option value="">Sem unidade</option>
+              <option value="">Sem recorte de unidade</option>
               {workspace.unitOptions.map((unit) => (
                 <option key={unit.id} value={unit.id}>
                   {unit.label}
@@ -155,13 +155,13 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
               rows={3}
               defaultValue={editingSector?.description ?? ""}
               className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-              placeholder="Opcional"
+              placeholder="Resumo curto de como esse setor aparece na base"
             />
           </label>
 
           <div className="flex flex-wrap gap-2">
             <button type="submit" className={cn(buttonVariants())}>
-              {editingSector ? "Salvar setor" : "Criar setor"}
+              {editingSector ? "Registrar ajuste no setor" : "Abrir setor"}
             </button>
             {editingSector ? (
               <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
@@ -186,7 +186,7 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
                         <h2 className="text-base font-semibold">{sector.name}</h2>
                         <p className="text-xs text-muted-foreground">
                           {sector.code}
-                          {sector.unit_id ? ` · ${unitMap.get(sector.unit_id) ?? "Sem unidade"}` : ""}
+                          {sector.unit_id ? ` · ${unitMap.get(sector.unit_id) ?? "Sem recorte de unidade"}` : ""}
                         </p>
                       </div>
                       <span className="rounded-full border px-2 py-1 text-xs text-muted-foreground">
@@ -203,7 +203,7 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
                         href={`${returnTo}&edit=${sector.id}`}
                         className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                       >
-                        Editar
+                        Ajustar
                       </Link>
 
                       <form action={toggleSectorActiveAction}>
@@ -230,9 +230,9 @@ export async function SectorAdminSection({ companyId, editId, status }: SectorAd
           ) : (
             <AdminEmptyState
               title="Nenhum setor cadastrado"
-              description="Crie o primeiro setor para organizar os relatos e registros."
+              description="Abra o primeiro setor para localizar melhor relato, pauta e registro econômico."
               actionHref={returnTo}
-              actionLabel="Criar setor"
+              actionLabel="Abrir setor"
             />
           )}
         </div>

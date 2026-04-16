@@ -87,7 +87,7 @@ export function PautaForm({ context, returnTo }: PautaFormProps) {
         {context.cluster.summary ? (
           <p className="mt-2 text-sm text-muted-foreground">{context.cluster.summary}</p>
         ) : (
-          <p className="mt-2 text-sm text-muted-foreground">Sem descrição do cluster.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Sem resumo registrado para esse cluster.</p>
         )}
       </section>
 
@@ -101,19 +101,19 @@ export function PautaForm({ context, returnTo }: PautaFormProps) {
             minLength={2}
             maxLength={120}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Título objetivo da pauta"
+            placeholder="Título curto da reivindicação"
           />
         </label>
 
         <label className="flex flex-col gap-2 text-sm font-medium md:col-span-2">
-          Texto objetivo
+          Texto da pauta
           <textarea
             name="description"
             required
             maxLength={240}
             rows={4}
             className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Descreva a pauta de forma curta e direta."
+            placeholder="Descreva a reivindicação de forma curta e direta."
           />
         </label>
 
@@ -121,7 +121,7 @@ export function PautaForm({ context, returnTo }: PautaFormProps) {
           label="Tipo"
           name="kind"
           options={kindOptions}
-          placeholder="Selecione o tipo"
+          placeholder="Escolha o tipo de pauta"
           required
           defaultValue={context.defaultKind}
         />
@@ -130,7 +130,7 @@ export function PautaForm({ context, returnTo }: PautaFormProps) {
           label="Prioridade"
           name="priority_code"
           options={context.severityOptions.map((option) => ({ id: option.code, label: option.label }))}
-          placeholder="Selecione a prioridade"
+          placeholder="Escolha a prioridade"
           required
         />
 
@@ -138,7 +138,7 @@ export function PautaForm({ context, returnTo }: PautaFormProps) {
           label="Status"
           name="status"
           options={statusOptions}
-          placeholder="Selecione o status"
+          placeholder="Escolha a situação"
           required
           defaultValue="open"
         />
@@ -147,21 +147,20 @@ export function PautaForm({ context, returnTo }: PautaFormProps) {
           label="Unidade"
           name="unit_id"
           options={context.unitOptions}
-          placeholder="Sem unidade"
+          placeholder="Sem recorte de unidade"
         />
 
         <SelectField
           label="Setor"
           name="sector_id"
           options={context.sectorOptions}
-          placeholder="Sem setor"
+          placeholder="Sem recorte de setor"
         />
       </div>
 
       <section className="rounded-2xl border bg-card p-4">
         <p className="text-sm text-muted-foreground">
-          A pauta nasce do cluster selecionado e permanece objetiva: sem comentários livres, sem
-          votação complexa e sem feed social.
+          A pauta nasce do cluster selecionado e segue direta: sem comentário solto, sem votação complexa e sem feed social.
         </p>
       </section>
 

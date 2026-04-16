@@ -1,13 +1,48 @@
-const statusCopy: Record<string, string> = {
-  "dados-invalidos":
-    "Revise os campos e use textos curtos e válidos nos dois campos.",
-  "email-invalido": "Informe um e-mail válido para receber o magic link.",
-  erro: "Não foi possível concluir a operação agora. Tente novamente.",
-  "erro-envio": "Não foi possível enviar o link de acesso agora.",
-  "link-enviado":
-    "Se o e-mail existir ou puder ser criado, o link de acesso foi enviado.",
-  "link-invalido": "O link de acesso expirou ou é inválido.",
-  "sessao-encerrada": "Sua sessão foi encerrada com sucesso.",
+import { StatusBanner } from "@/components/ui/status-banner";
+
+const statusCopy: Record<
+  string,
+  {
+    kind: "error" | "info" | "success" | "warning";
+    message: string;
+    title: string;
+  }
+> = {
+  "dados-invalidos": {
+    kind: "error",
+    message: "Revise os dois campos e preencha do jeito mais curto e claro possível.",
+    title: "Dados inválidos",
+  },
+  "email-invalido": {
+    kind: "error",
+    message: "Informe um e-mail válido para receber o magic link.",
+    title: "E-mail inválido",
+  },
+  erro: {
+    kind: "error",
+    message: "Não conseguimos concluir a entrada agora. Tente de novo em instantes.",
+    title: "Falha de autenticação",
+  },
+  "erro-envio": {
+    kind: "error",
+    message: "Não conseguimos enviar o link de entrada agora.",
+    title: "Envio interrompido",
+  },
+  "link-enviado": {
+    kind: "success",
+    message: "Se esse e-mail puder entrar na base, o link foi enviado.",
+    title: "Link enviado",
+  },
+  "link-invalido": {
+    kind: "warning",
+    message: "Esse link venceu ou não vale mais. Peça outro acesso.",
+    title: "Link inválido",
+  },
+  "sessao-encerrada": {
+    kind: "success",
+    message: "Sua sessão foi encerrada com sucesso.",
+    title: "Sessão encerrada",
+  },
 };
 
 type AuthMessageProps = {
@@ -19,9 +54,7 @@ export function AuthMessage({ status }: AuthMessageProps) {
     return null;
   }
 
-  return (
-    <div className="rounded-lg border border-border bg-muted px-3 py-2 text-sm text-muted-foreground">
-      {statusCopy[status]}
-    </div>
-  );
+  const entry = statusCopy[status];
+
+  return <StatusBanner kind={entry.kind} message={entry.message} title={entry.title} />;
 }

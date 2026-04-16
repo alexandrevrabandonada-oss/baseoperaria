@@ -14,7 +14,7 @@ function SubmitButton() {
 
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? "Enviando..." : "Salvar registro"}
+      {pending ? "Registrando..." : "Abrir registro econômico"}
     </Button>
   );
 }
@@ -129,19 +129,19 @@ export function EconomicReportForm({
         </p>
         <h2 className="mt-1 text-base font-semibold">{companyName}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          O registro econômico usa faixa salarial em vez de valor exato.
+          Aqui o registro usa faixa salarial, não valor exato, para proteger quem informa.
         </p>
       </section>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <SelectField label="Unidade" name="unit_id" options={unitOptions} placeholder="Sem unidade" />
-        <SelectField label="Setor" name="sector_id" options={sectorOptions} placeholder="Sem setor" />
-        <SelectField label="Turno" name="shift_id" options={shiftOptions} placeholder="Sem turno" />
+        <SelectField label="Unidade" name="unit_id" options={unitOptions} placeholder="Sem recorte de unidade" />
+        <SelectField label="Setor" name="sector_id" options={sectorOptions} placeholder="Sem recorte de setor" />
+        <SelectField label="Turno" name="shift_id" options={shiftOptions} placeholder="Sem recorte de turno" />
         <LookupField
           label="Tipo de vínculo"
           name="contract_type_code"
           options={contractTypeOptions}
-          placeholder="Selecione o vínculo"
+          placeholder="Escolha seu tipo de vínculo"
         />
       </div>
 
@@ -150,38 +150,38 @@ export function EconomicReportForm({
           label="Faixa salarial"
           name="salary_band_code"
           options={salaryBandOptions}
-          placeholder="Selecione a faixa"
+          placeholder="Escolha a faixa salarial"
         />
         <LookupField
-          label="Tipo de problema econômico"
+          label="Tipo de pauta econômica"
           name="issue_type_code"
           options={issueTypeOptions}
-          placeholder="Selecione o problema"
+          placeholder="Escolha a frente econômica"
         />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <label className="flex flex-col gap-2 text-sm font-medium">
-          Cargo formal
+          Cargo na carteira
           <input
             type="text"
             name="formal_role"
             required
             maxLength={90}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Cargo registrado"
+            placeholder="Como seu cargo aparece formalmente"
           />
         </label>
 
         <label className="flex flex-col gap-2 text-sm font-medium">
-          Função real
+          O que você faz de verdade
           <input
             type="text"
             name="real_function"
             required
             maxLength={90}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Atividade efetiva"
+            placeholder="Qual função você realmente cumpre"
           />
         </label>
       </div>
@@ -190,7 +190,7 @@ export function EconomicReportForm({
         label="Gravidade"
         name="severity_code"
         options={severityOptions}
-        placeholder="Selecione a gravidade"
+        placeholder="Escolha o peso do problema"
       />
 
       <label className="flex flex-col gap-2 text-sm font-medium">
@@ -201,7 +201,7 @@ export function EconomicReportForm({
           maxLength={260}
           rows={4}
           className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-          placeholder="Explique o ponto econômico sem informar valor exato."
+          placeholder="Explique o problema sem informar valor exato."
         />
       </label>
 
@@ -215,7 +215,7 @@ export function EconomicReportForm({
           className="block w-full rounded-lg border border-input bg-background px-3 py-2 text-sm file:mr-4 file:rounded-md file:border-0 file:bg-muted file:px-3 file:py-2 file:text-sm file:font-medium"
         />
         <span className="text-xs text-muted-foreground">
-          PDFs e imagens são suficientes; siga sem anexo quando não houver material de apoio.
+          PDF e imagem já bastam. Se não houver prova agora, siga sem anexo.
         </span>
       </label>
 

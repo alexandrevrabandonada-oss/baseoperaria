@@ -1,3 +1,5 @@
+import { StatusBanner } from "@/components/ui/status-banner";
+
 type NucleosStatusBannerProps = {
   status: string | undefined;
 };
@@ -53,12 +55,5 @@ export function NucleosStatusBanner({ status }: NucleosStatusBannerProps) {
     return null;
   }
 
-  const base =
-    entry.kind === "error"
-      ? "border-destructive/30 bg-destructive/10 text-destructive"
-      : entry.kind === "success"
-        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
-        : "border-border bg-muted text-foreground";
-
-  return <div className={`rounded-xl border px-4 py-3 text-sm ${base}`}>{entry.message}</div>;
+  return <StatusBanner kind={entry.kind} message={entry.message} />;
 }

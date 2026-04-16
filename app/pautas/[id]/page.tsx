@@ -30,7 +30,7 @@ export default async function PautaDetailPage({ params, searchParams }: PautaDet
         <PautasStatusBanner status={query.status} />
         <PautasEmptyState
           title="Pauta indisponível"
-          description="A pauta não foi encontrada ou você não tem acesso a ela."
+          description="Essa pauta não foi encontrada ou não está liberada para o seu acesso."
           href="/pautas"
           actionLabel="Voltar para pautas"
         />

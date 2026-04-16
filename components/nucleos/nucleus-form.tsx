@@ -19,7 +19,7 @@ function SubmitButton() {
 
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? "Salvando..." : "Criar núcleo"}
+      {pending ? "Abrindo..." : "Abrir núcleo"}
     </Button>
   );
 }
@@ -81,7 +81,7 @@ export function NucleusForm({ context, returnTo }: NucleusFormProps) {
         </p>
         <h2 className="mt-1 text-base font-semibold">{context.companyName}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Núcleos organizam pessoas em torno de um setor ou de um tema sem abrir chat ou feed.
+          Núcleos juntam gente por setor ou tema para tocar pauta sem virar feed ou conversa solta.
         </p>
       </section>
 
@@ -95,7 +95,7 @@ export function NucleusForm({ context, returnTo }: NucleusFormProps) {
             minLength={2}
             maxLength={120}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Nome curto do núcleo"
+            placeholder="Nome curto para identificar esse núcleo"
           />
         </label>
 
@@ -107,7 +107,7 @@ export function NucleusForm({ context, returnTo }: NucleusFormProps) {
             maxLength={240}
             rows={4}
             className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Explique o objetivo do núcleo de forma objetiva."
+            placeholder="Explique em uma frase o que esse núcleo vai organizar."
           />
         </label>
 
@@ -136,7 +136,7 @@ export function NucleusForm({ context, returnTo }: NucleusFormProps) {
             label="Setor"
             name="sector_id"
             options={context.sectorOptions}
-            placeholder={context.sectorOptions.length > 0 ? "Selecione um setor" : "Sem setores ativos"}
+            placeholder={context.sectorOptions.length > 0 ? "Escolha o setor" : "Sem setor ativo para usar"}
             required={context.sectorOptions.length > 0}
             defaultValue=""
           />
@@ -149,7 +149,7 @@ export function NucleusForm({ context, returnTo }: NucleusFormProps) {
               maxLength={120}
               required
               className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-              placeholder="Tema do núcleo"
+              placeholder="Tema que organiza esse núcleo"
             />
           </label>
         )}
@@ -157,8 +157,7 @@ export function NucleusForm({ context, returnTo }: NucleusFormProps) {
 
       <section className="rounded-2xl border bg-card p-4">
         <p className="text-sm text-muted-foreground">
-          Use setor quando o núcleo seguir uma estrutura fixa. Use tema quando a organização for
-          transversal.
+          Use setor quando a base estiver organizada por área fixa. Use tema quando o problema atravessar mais de um setor.
         </p>
       </section>
 

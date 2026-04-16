@@ -39,7 +39,7 @@ export async function CategoryAdminSection({
     return (
       <AdminEmptyState
         title="Nenhuma empresa administrativa"
-        description="Cadastre ou vincule uma empresa como owner/admin para começar a organizar categorias."
+        description="Tenha administração em uma empresa para começar a organizar as categorias da base."
       />
     );
   }
@@ -54,7 +54,7 @@ export async function CategoryAdminSection({
         />
         <AdminEmptyState
           title="Escolha uma empresa"
-          description="As categorias ficam vinculadas a uma empresa. Selecione uma acima para continuar."
+          description="As categorias ficam presas a uma empresa. Escolha uma acima para seguir."
         />
       </div>
     );
@@ -77,9 +77,9 @@ export async function CategoryAdminSection({
       <section className="rounded-3xl border bg-card p-6">
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium text-muted-foreground">Categorias de relato</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Taxonomia mínima do produto</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Categorias para nomear o problema</h1>
           <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-            Separe categorias de condições e econômicas sem criar uma estrutura complexa.
+            Separe condição de trabalho e pauta econômica sem transformar a base em burocracia.
           </p>
         </div>
       </section>
@@ -121,7 +121,7 @@ export async function CategoryAdminSection({
                 maxLength={80}
                 defaultValue={editingCategory?.code ?? ""}
                 className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-                placeholder="Opcional; gerado se vazio"
+                placeholder="Gerado automaticamente se ficar vazio"
               />
             </label>
           </div>
@@ -133,8 +133,8 @@ export async function CategoryAdminSection({
               defaultValue={editingCategory?.category_kind ?? "conditions"}
               className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
             >
-              <option value="conditions">Condições</option>
-              <option value="economic">Econômica</option>
+              <option value="conditions">Condições de trabalho</option>
+              <option value="economic">Pauta econômica</option>
             </select>
           </label>
 
@@ -146,13 +146,13 @@ export async function CategoryAdminSection({
               rows={3}
               defaultValue={editingCategory?.description ?? ""}
               className="rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-              placeholder="Opcional"
+              placeholder="Resumo curto para orientar quem vai registrar"
             />
           </label>
 
           <div className="flex flex-wrap gap-2">
             <button type="submit" className={cn(buttonVariants())}>
-              {editingCategory ? "Salvar categoria" : "Criar categoria"}
+              {editingCategory ? "Registrar ajuste na categoria" : "Abrir categoria"}
             </button>
             {editingCategory ? (
               <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
@@ -177,7 +177,7 @@ export async function CategoryAdminSection({
                         <h2 className="text-base font-semibold">{category.name}</h2>
                         <p className="text-xs text-muted-foreground">
                           {category.code} ·{" "}
-                          {category.category_kind === "conditions" ? "Condições" : "Econômica"}
+                          {category.category_kind === "conditions" ? "Condições de trabalho" : "Pauta econômica"}
                         </p>
                       </div>
                       <span className="rounded-full border px-2 py-1 text-xs text-muted-foreground">
@@ -194,7 +194,7 @@ export async function CategoryAdminSection({
                         href={`${returnTo}&edit=${category.id}`}
                         className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
                       >
-                        Editar
+                        Ajustar
                       </Link>
 
                       <form action={toggleCategoryActiveAction}>
@@ -221,9 +221,9 @@ export async function CategoryAdminSection({
           ) : (
             <AdminEmptyState
               title="Nenhuma categoria cadastrada"
-              description="Crie a primeira categoria para o fluxo de relatos."
+              description="Abra a primeira categoria para dar nome ao que vai ser registrado na base."
               actionHref={returnTo}
-              actionLabel="Criar categoria"
+              actionLabel="Abrir categoria"
             />
           )}
         </div>

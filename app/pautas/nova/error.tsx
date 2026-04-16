@@ -17,9 +17,9 @@ export default function PautaNovaError({ error, reset }: PautaNovaErrorProps) {
   return (
     <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-lg font-semibold tracking-tight">Falha ao carregar a criação de pauta</h2>
+        <h2 className="text-lg font-semibold tracking-tight">Não foi possível abrir a criação de pauta</h2>
         <p className="text-sm text-muted-foreground">
-          Tente novamente. Se o problema persistir, volte para os clusters.
+          Tente de novo. Se continuar travando, volte para os clusters e reabra a criação.
         </p>
       </div>
       <div className="flex gap-2">

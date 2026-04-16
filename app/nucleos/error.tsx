@@ -17,9 +17,9 @@ export default function NucleosError({ error, reset }: NucleosErrorProps) {
   return (
     <section className="flex flex-col gap-4 rounded-2xl border bg-card p-6">
       <div className="flex flex-col gap-2">
-        <h2 className="text-lg font-semibold tracking-tight">Falha ao carregar núcleos</h2>
+        <h2 className="text-lg font-semibold tracking-tight">Não foi possível puxar os núcleos</h2>
         <p className="text-sm text-muted-foreground">
-          Tente novamente. Se o problema persistir, recarregue a página.
+          Tente de novo. Se continuar travando, recarregue a base e volte para a listagem.
         </p>
       </div>
       <div className="flex gap-2">

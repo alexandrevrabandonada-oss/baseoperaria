@@ -4,7 +4,7 @@ import { buttonVariants } from "@/components/ui/button";
 import type { PautaDetailContext } from "@/lib/supabase/pautas";
 import { cn } from "@/lib/utils";
 import { PautaSupportForm } from "@/components/pautas/pauta-support-form";
-import { pautaKindOptions, pautaStatusOptions } from "@/types/pautas";
+import { labelPautaKind, labelPautaStatus } from "@/types/pautas";
 
 type PautaDetailViewProps = {
   context: PautaDetailContext;
@@ -52,10 +52,8 @@ function SignalCard({
 
 export function PautaDetailView({ context, status }: PautaDetailViewProps) {
   const returnTo = `/pautas?company_id=${context.companyId}`;
-  const demandStatusLabel =
-    pautaStatusOptions.find((option) => option.code === context.status)?.label ?? context.status;
-  const demandKindLabel =
-    pautaKindOptions.find((option) => option.code === context.kind)?.label ?? context.kind;
+  const demandStatusLabel = labelPautaStatus(context.status);
+  const demandKindLabel = labelPautaKind(context.kind);
   const dateLabel = new Intl.DateTimeFormat("pt-BR", {
     dateStyle: "medium",
     timeStyle: "short",
@@ -73,14 +71,14 @@ export function PautaDetailView({ context, status }: PautaDetailViewProps) {
               <h1 className="text-3xl font-semibold tracking-tight">{context.title}</h1>
             </div>
             <Link href={returnTo} className={cn(buttonVariants({ variant: "outline" }))}>
-              Voltar
+              Voltar para pautas
             </Link>
           </div>
 
           {context.description ? (
             <p className="text-sm leading-6 text-muted-foreground">{context.description}</p>
           ) : (
-            <p className="text-sm leading-6 text-muted-foreground">Sem descrição.</p>
+            <p className="text-sm leading-6 text-muted-foreground">Sem texto registrado para essa pauta.</p>
           )}
 
           <p className="text-xs text-muted-foreground">Criada em {dateLabel}</p>
@@ -119,7 +117,7 @@ export function PautaDetailView({ context, status }: PautaDetailViewProps) {
                 <SignalCard
                   label="Vínculos do cluster"
                   value={String(context.cluster.reportLinkCount + context.cluster.economicLinkCount)}
-                  hint="Soma dos vínculos de condições e econômicos."
+                  hint="Soma dos vínculos de condições de trabalho e pauta econômica."
                 />
               </div>
             </div>
@@ -155,7 +153,7 @@ export function PautaDetailView({ context, status }: PautaDetailViewProps) {
           <div className="flex flex-col gap-2">
             <h2 className="text-base font-semibold">Apoiadores</h2>
             <p className="text-sm text-muted-foreground">
-              Sem comentários, sem votação complexa. Só apoio simples de usuários autenticados.
+              Sem comentário livre e sem votação complexa. Só apoio direto de quem está autenticado.
             </p>
           </div>
 
@@ -186,7 +184,7 @@ export function PautaDetailView({ context, status }: PautaDetailViewProps) {
           <div className="flex flex-col gap-2">
             <h2 className="text-base font-semibold">Histórico básico</h2>
             <p className="text-sm text-muted-foreground">
-              O histórico fica restrito a eventos objetivos e timestamps do sistema.
+              O histórico fica preso ao que foi feito e quando foi feito.
             </p>
           </div>
 
