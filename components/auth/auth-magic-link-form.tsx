@@ -14,6 +14,7 @@ type AuthMagicLinkFormProps = {
 export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
   const [status, setStatus] = useState<string | undefined>(initialStatus);
   const [email, setEmail] = useState("");
+  const [errorDetail, setErrorDetail] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -22,11 +23,13 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
     const normalizedEmail = email.trim().toLowerCase();
 
     if (!normalizedEmail) {
+      setErrorDetail(null);
       setStatus("email-invalido");
       return;
     }
 
     setIsSubmitting(true);
+    setErrorDetail(null);
 
     try {
       const emailRedirectTo = new URL(
@@ -49,6 +52,10 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
           email: normalizedEmail,
           message: error.message,
         });
+        setErrorDetail(
+          [error.code, error.message].filter(Boolean).join(": ") ||
+            "Falha desconhecida ao pedir o magic link.",
+        );
         setStatus("erro-envio");
         return;
       }
@@ -59,6 +66,9 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
         email: normalizedEmail,
         error,
       });
+      setErrorDetail(
+        error instanceof Error ? error.message : "Excecao desconhecida no navegador.",
+      );
       setStatus("erro-envio");
     } finally {
       setIsSubmitting(false);
@@ -74,6 +84,10 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
       status === "link-enviado"
     ) {
       setStatus(undefined);
+    }
+
+    if (errorDetail) {
+      setErrorDetail(null);
     }
   }
 
@@ -98,6 +112,10 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
       <Button type="submit" className="w-full" disabled={isSubmitting}>
         {isSubmitting ? "Enviando link..." : "Receber link de entrada"}
       </Button>
+
+      {errorDetail ? (
+        <p className="text-xs leading-5 text-destructive">Detalhe tecnico: {errorDetail}</p>
+      ) : null}
     </form>
   );
 }
