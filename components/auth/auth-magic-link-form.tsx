@@ -1,12 +1,11 @@
 "use client";
 
-import type { FormEvent } from "react";
-import { useState, useTransition } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
 
 import { AuthMessage } from "@/components/auth/auth-message";
-import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
-import { normalizeEmail } from "@/lib/validation/workflows";
+import { Button } from "@/components/ui/button";
 
 type AuthMagicLinkFormProps = {
   initialStatus?: string | undefined;
@@ -14,55 +13,72 @@ type AuthMagicLinkFormProps = {
 
 export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
   const [status, setStatus] = useState<string | undefined>(initialStatus);
-  const [isPending, startTransition] = useTransition();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  async function handleSubmit(formData: FormData) {
-    const email = normalizeEmail(formData.get("email"));
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-    if (!email) {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (!normalizedEmail) {
       setStatus("email-invalido");
       return;
     }
 
-    const emailRedirectTo = new URL(
-      "/auth/confirm?next=/onboarding",
-      window.location.origin,
-    ).toString();
+    setIsSubmitting(true);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo,
-        shouldCreateUser: true,
-      },
-    });
+    try {
+      const emailRedirectTo = new URL(
+        "/auth/confirm?next=/onboarding",
+        window.location.origin,
+      ).toString();
 
-    if (error) {
-      console.error("[auth] falha ao enviar magic link", {
-        code: error.code,
-        email,
-        message: error.message,
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({
+        email: normalizedEmail,
+        options: {
+          emailRedirectTo,
+          shouldCreateUser: true,
+        },
+      });
+
+      if (error) {
+        console.error("[auth] falha ao enviar magic link", {
+          code: error.code,
+          email: normalizedEmail,
+          message: error.message,
+        });
+        setStatus("erro-envio");
+        return;
+      }
+
+      setStatus("link-enviado");
+    } catch (error) {
+      console.error("[auth] excecao inesperada ao enviar magic link", {
+        email: normalizedEmail,
+        error,
       });
       setStatus("erro-envio");
-      return;
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setStatus("link-enviado");
   }
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {
+    setEmail(event.target.value);
 
-    const formData = new FormData(event.currentTarget);
-
-    startTransition(async () => {
-      await handleSubmit(formData);
-    });
+    if (
+      status === "email-invalido" ||
+      status === "erro-envio" ||
+      status === "link-enviado"
+    ) {
+      setStatus(undefined);
+    }
   }
 
   return (
-    <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <AuthMessage status={status} />
 
       <label className="flex flex-col gap-2 text-sm font-medium">
@@ -71,19 +87,16 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
           type="email"
           name="email"
           autoComplete="email"
+          value={email}
           required
           className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
           placeholder="voce@empresa.com.br"
-          onChange={() => {
-            if (status === "email-invalido" || status === "erro-envio" || status === "link-enviado") {
-              setStatus(undefined);
-            }
-          }}
+          onChange={handleEmailChange}
         />
       </label>
 
-      <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? "Enviando link..." : "Receber link de entrada"}
+      <Button type="submit" className="w-full" disabled={isSubmitting}>
+        {isSubmitting ? "Enviando link..." : "Receber link de entrada"}
       </Button>
     </form>
   );
