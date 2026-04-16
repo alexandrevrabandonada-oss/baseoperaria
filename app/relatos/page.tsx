@@ -1,0 +1,85 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import { buttonVariants } from "@/components/ui/button";
+import { CompanyChips } from "@/components/relatos/company-chips";
+import { RelatosEmptyState } from "@/components/relatos/relatos-empty-state";
+import { RelatosStatusBanner } from "@/components/relatos/relatos-status-banner";
+import { getRelatosLandingContext } from "@/lib/supabase/relatos";
+import { cn } from "@/lib/utils";
+
+type RelatosPageProps = {
+  searchParams: Promise<{
+    status?: string;
+  }>;
+};
+
+export default async function RelatosPage({ searchParams }: RelatosPageProps) {
+  const [params, context] = await Promise.all([searchParams, getRelatosLandingContext()]);
+
+  if (!context.user) {
+    redirect("/entrar");
+  }
+
+  return (
+    <div className="flex flex-col gap-6">
+      <section className="rounded-3xl border bg-card p-6">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-medium text-muted-foreground">Relatos</p>
+            <h1 className="text-3xl font-semibold tracking-tight">
+              Condições de trabalho em fluxo curto e privado
+            </h1>
+            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+              Registre relatos de forma rápida no celular, sem feed social e sem expor dados
+              desnecessários.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Link href="/relatos/novo" className={cn(buttonVariants())}>
+              Novo relato
+            </Link>
+            <Link href="/relatos/meus" className={cn(buttonVariants({ variant: "outline" }))}>
+              Meus relatos
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <RelatosStatusBanner status={params.status} />
+
+      <section className="grid gap-3 md:grid-cols-3">
+        <div className="rounded-2xl border bg-card p-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Relatos enviados
+          </p>
+          <p className="mt-2 text-2xl font-semibold">{context.reportCount}</p>
+        </div>
+        <div className="rounded-2xl border bg-card p-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Empresas vinculadas
+          </p>
+          <p className="mt-2 text-2xl font-semibold">{context.companies.length}</p>
+        </div>
+        <div className="rounded-2xl border bg-card p-4">
+          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            Fluxo
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Formulário, meus relatos, detalhe e confirmação.
+          </p>
+        </div>
+      </section>
+
+      {context.companies.length > 0 ? (
+        <CompanyChips companies={context.companies} targetPath="/relatos/novo" />
+      ) : (
+        <RelatosEmptyState
+          title="Sem empresa vinculada"
+          description="Você ainda não está associado a nenhuma empresa. Sem isso, não há como abrir o formulário de relato."
+        />
+      )}
+    </div>
+  );
+}
