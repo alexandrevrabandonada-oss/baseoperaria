@@ -1,11 +1,11 @@
 "use client";
 
+import type { FormEvent } from "react";
 import { useState, useTransition } from "react";
 
 import { AuthMessage } from "@/components/auth/auth-message";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/client";
-import { getSiteUrl } from "@/lib/supabase/env";
 import { normalizeEmail } from "@/lib/validation/workflows";
 
 type AuthMagicLinkFormProps = {
@@ -24,11 +24,16 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
       return;
     }
 
+    const emailRedirectTo = new URL(
+      "/auth/confirm?next=/onboarding",
+      window.location.origin,
+    ).toString();
+
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: getSiteUrl("/auth/confirm?next=/onboarding"),
+        emailRedirectTo,
         shouldCreateUser: true,
       },
     });
@@ -46,15 +51,18 @@ export function AuthMagicLinkForm({ initialStatus }: AuthMagicLinkFormProps) {
     setStatus("link-enviado");
   }
 
+  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+
+    startTransition(async () => {
+      await handleSubmit(formData);
+    });
+  }
+
   return (
-    <form
-      action={(formData) => {
-        startTransition(async () => {
-          await handleSubmit(formData);
-        });
-      }}
-      className="flex flex-col gap-4"
-    >
+    <form onSubmit={handleFormSubmit} className="flex flex-col gap-4">
       <AuthMessage status={status} />
 
       <label className="flex flex-col gap-2 text-sm font-medium">
