@@ -1,9 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { signInWithMagicLinkAction } from "@/app/auth/actions";
-import { AuthMessage } from "@/components/auth/auth-message";
-import { AuthSubmitButton } from "@/components/auth/auth-submit-button";
+import { AuthMagicLinkForm } from "@/components/auth/auth-magic-link-form";
 import { getAuthContext, hasCompletedOnboarding } from "@/lib/supabase/queries";
 
 type LoginPageProps = {
@@ -31,23 +29,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         </p>
       </header>
 
-      <AuthMessage status={params.status} />
-
-      <form action={signInWithMagicLinkAction} className="flex flex-col gap-4">
-        <label className="flex flex-col gap-2 text-sm font-medium">
-          E-mail
-          <input
-            type="email"
-            name="email"
-            autoComplete="email"
-            required
-            className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="voce@empresa.com.br"
-          />
-        </label>
-
-        <AuthSubmitButton idleLabel="Receber link de entrada" pendingLabel="Enviando link..." />
-      </form>
+      <AuthMagicLinkForm initialStatus={params.status} />
 
       <p className="text-xs leading-5 text-muted-foreground">
         Na primeira entrada, voce preenche um cadastro rapido com pseudonimo e vinculo.
