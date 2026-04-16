@@ -4,6 +4,7 @@ import { CompanyChips } from "@/components/relatos/company-chips";
 import { RelatosEmptyState } from "@/components/relatos/relatos-empty-state";
 import { RelatosStatusBanner } from "@/components/relatos/relatos-status-banner";
 import { ReportForm } from "@/components/relatos/report-form";
+import { getAuthContext } from "@/lib/supabase/queries";
 import { getRelatosFormContext } from "@/lib/supabase/relatos";
 
 type RelatosNovoPageProps = {
@@ -15,6 +16,12 @@ type RelatosNovoPageProps = {
 
 export default async function RelatosNovoPage({ searchParams }: RelatosNovoPageProps) {
   const params = await searchParams;
+  const auth = await getAuthContext();
+
+  if (!auth.user) {
+    redirect("/entrar?status=sessao-expirada");
+  }
+
   const context = await getRelatosFormContext(params.company_id);
 
   if (!context.companies.length) {

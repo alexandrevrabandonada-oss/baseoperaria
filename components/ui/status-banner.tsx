@@ -31,12 +31,12 @@ const kindLabelColors: Record<StatusBannerKind, string> = {
 
 export function StatusBanner({ kind, message, title }: StatusBannerProps) {
   return (
-    <section className={cn("rounded-xl border px-4 py-3 shadow-[inset_0_1px_0_rgb(255_255_255_/_0.025)]", kindStyles[kind])}>
-      <div className="flex flex-col gap-1 border-l-2 border-current/40 pl-3">
+    <section className={cn("rounded-xl border px-4 py-3 shadow-[inset_0_1px_0_rgb(255_255_255_/_0.02)]", kindStyles[kind])}>
+      <div className="flex flex-col gap-1.5 border-l-2 border-current/35 pl-3">
         <p className={cn("text-[0.68rem] font-semibold uppercase tracking-[0.2em]", kindLabelColors[kind])}>
           {title ?? kindLabels[kind]}
         </p>
-        <p className="text-sm leading-6 text-foreground">{message}</p>
+        <p className="text-sm leading-5 text-foreground">{message}</p>
       </div>
     </section>
   );

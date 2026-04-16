@@ -120,7 +120,7 @@ export function ReportForm({
 
       <input type="hidden" name="company_id" value={companyId} />
 
-      <section className="rounded-2xl border bg-card p-4">
+      <section className="surface-subtle">
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
           Empresa selecionada
         </p>
@@ -130,7 +130,7 @@ export function ReportForm({
         </p>
       </section>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:gap-5">
         <SelectField
           label="Unidade"
           name="unit_id"
@@ -158,7 +158,7 @@ export function ReportForm({
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:gap-5">
         <LookupField
           label="Gravidade"
           name="severity_code"

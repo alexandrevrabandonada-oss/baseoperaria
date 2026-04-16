@@ -69,16 +69,30 @@ npm run build
 
 ```bash
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
+SITE_URL=
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
 Observações:
 
+- Em produção, defina `NEXT_PUBLIC_SITE_URL` (ou `SITE_URL`) com o dominio publico, por exemplo `https://baseoperaria.seudominio.com`.
+- Se `NEXT_PUBLIC_SITE_URL`/`SITE_URL` nao estiver definido, a aplicacao tenta usar `VERCEL_PROJECT_PRODUCTION_URL` ou `VERCEL_URL` automaticamente.
+- Se nenhuma URL valida estiver disponivel em produção, o envio do magic link falha por seguranca (para nao gerar links com localhost).
 - `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` são usados no cliente browser e no SSR.
 - O fluxo atual não exige `service_role` no runtime da aplicação.
 - Mantenha chaves administrativas fora do frontend e fora de componentes client.
 - O diagnóstico remoto usa `SUPABASE_DB_URL` ou `DATABASE_URL`, mas isso não deve ser carregado no runtime do app.
+
+### Auth local com Supabase
+
+Para o login por magic link funcionar localmente, configure no painel do Supabase:
+
+- `Site URL`: `http://localhost:3000`
+- `Redirect URL`: `http://localhost:3000/auth/confirm?next=/onboarding`
+
+Se houver ambiente publicado, adicione tambem a variante real do dominio publicado na lista de redirects.
+Em produção (Vercel), inclua tambem `https://SEU_DOMINIO/auth/confirm?next=/onboarding` nos Redirect URLs do Supabase e ajuste o Site URL para o mesmo dominio.
 
 ## Autenticação e onboarding
 
@@ -179,6 +193,13 @@ Observações:
 - `code` e `slug` são gerados automaticamente quando o campo fica vazio, mas podem ser informados manualmente se você quiser padronização explícita
 - `company_id` é o eixo de isolamento dos cadastros; mantenha os dados da empresa piloto sempre nessa mesma empresa
 - Arquivar ou desativar um cadastro mantém o histórico e evita apagar referências já usadas pelos relatos
+
+### Guias internos do piloto
+
+- `reports/guia-operacao-piloto.md`: roteiro operacional do piloto controlado
+- `reports/checklist-uso-inicial-piloto.md`: checklist curto para abertura e uso inicial
+- `reports/roteiro-smoke-piloto.md`: smoke funcional guiado para o fluxo critico do piloto
+- `reports/supabase-bootstrap-checklist.md`: ordem técnica de bootstrap e validações rápidas
 
 ### Schema
 

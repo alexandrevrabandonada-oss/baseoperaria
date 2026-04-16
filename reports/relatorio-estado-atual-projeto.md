@@ -1,280 +1,117 @@
-# Relatório de Estado Atual do Projeto
+# Relatorio de Estado Atual do Projeto
 
-Data de referência: 15/04/2026
+Data de referencia: 16/04/2026
 
-## Visão Geral
+## Resumo executivo
 
-O `Base Operária` está em um estágio funcional de produto, com Next.js App Router, TypeScript estrito, Tailwind CSS e shadcn/ui já integrados. A aplicação deixou de ser apenas uma casca inicial e hoje cobre autenticação, onboarding, cadastros estruturais, moderação, clustering, pautas, núcleos, relatos, pauta econômica e radar privado.
+O projeto Base Operaria esta em estado operacional consolidado e pronto para entrada em piloto controlado.
 
-A base foi pensada para operar com Supabase remoto em SSR, usando cookies para persistência de sessão e uma modelagem preparada para RLS, multiempresa e expansão futura sem exigir reestruturação grande.
+- Frontend e backend integrados com Supabase remoto, build, typecheck, lint e testes passando com estabilidade
+- Suíte de testes automatizados expandida de 1 arquivo/5 testes (15/04) para 8 arquivos/29 testes (16/04)
+- Cobertura de smoke inclui o fluxo critico completo: parsers de validacao, criacao de pauta a partir de cluster, attach/detach de relatos e economicos, save de cluster com auditoria e todos os caminhos de fallback/permissao
+- Roteiro de smoke manual e guias operacionais disponíveis em reports/ para o time piloto
 
-## Stack
+## Status por area
 
-- Next.js 16.2.3 com App Router
-- React 19.2.4
-- TypeScript estrito
-- Tailwind CSS 4
-- shadcn/ui
-- Supabase via `@supabase/ssr` e `@supabase/supabase-js`
-- Vitest para validações mínimas de fluxo
+### Aplicacao web
 
-## Estrutura Atual
+Status: OK
 
-O código está organizado em:
+- Stack ativa: Next.js 16.2.3, React 19, TypeScript estrito, Tailwind 4
+- Rotas disponiveis: /, /entrar, /auth/confirm, /onboarding, /relatos, /relatos/novo, /relatos/[id], /relatos/meus, /economico, /economico/novo, /economico/[id], /economico/meus, /pautas, /pautas/nova, /pautas/[id], /nucleos, /nucleos/novo, /nucleos/[id], /moderacao, /radar, /admin, /admin/clusters, /admin/clusters/[id], /admin/[section], /sair
+- Sessao SSR via cookie implementada com proxy; auth por magic link com callback em /auth/confirm
+- Middleware aplicado em todas as rotas protegidas
 
-- `app/`
-- `components/`
-- `lib/`
-- `supabase/`
-- `tests/`
-- `types/`
-- `reports/`
+### Banco Supabase
 
-O layout principal usa `AppShell`, com header simples no desktop, navegação inferior no mobile e separação visual entre experiência comum, área administrativa e área de moderação.
+Status: OK
 
-## Rotas Entregues
+Bootstrap aplicado em ordem:
 
-### Base e acesso
+1. supabase/sql/base_operaria_bootstrap.sql
+2. supabase/sql/base_operaria_authz.sql
+3. supabase/sql/base_operaria_storage.sql
+4. supabase/sql/base_operaria_first_access_template.sql
+5. supabase/sql/base_operaria_pilot_setup_template.sql
 
-- `/` página inicial
-- `/entrar` login por magic link
-- `/auth/confirm` confirmação do link
-- `/onboarding` cadastro mínimo com pseudônimo e vínculo inicial
-- `/sair` encerramento de sessão
+Estrutura de dados ativa:
 
-### Relatos
+- profiles, companies, company_memberships
+- units, sectors, shifts, report_categories
+- reports, report_attachments, report_confirmations
+- economic_reports, economic_report_attachments, economic_report_confirmations
+- issue_clusters, cluster_reports, cluster_economic_reports
+- demands, demand_supporters
+- nuclei, nucleus_members, actions, moderation_events
+- Tabelas de lookup: severity_levels, frequency_levels, contract_types, salary_bands, issue_types, confirmation_types
+- Buckets privados de storage com policies RLS
 
-- `/relatos`
-- `/relatos/novo`
-- `/relatos/meus`
-- `/relatos/[id]`
+### Ambiente local
 
-### Pauta Econômica
+Status: OK
 
-- `/economico`
-- `/economico/novo`
-- `/economico/meus`
-- `/economico/[id]`
+- .env.local com NEXT_PUBLIC_SITE_URL, NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY
+- service_role nao e usada no runtime
 
-### Pautas
+## Cobertura de testes automatizados
 
-- `/pautas`
-- `/pautas/nova?cluster_id=<id>`
-- `/pautas/[id]`
+Executado em 16/04/2026:
 
-### Núcleos
+- npm run typecheck: OK
+- npm run lint: OK
+- npm run test: OK — 8 arquivos, 29 testes
+- npm run build: OK — 26 rotas dinamicas, build limpo
 
-- `/nucleos`
-- `/nucleos/novo`
-- `/nucleos/[id]`
+Mapa de smoke por arquivo:
 
-### Administração e moderação
+| Arquivo | Cobertura |
+|---|---|
+| tests/workflows.test.ts | Parsers de onboarding, relato, economico, confirmacao e pauta (5 testes) |
+| tests/pilot-smoke.test.ts | Cadeia completa de validacao do fluxo critico e guarda de return_to (2 testes) |
+| tests/pauta-action-smoke.test.ts | Criacao de pauta de cluster, guarda de company mismatch (2 testes) |
+| tests/cluster-save-smoke.test.ts | Save de cluster: create, update, duplicidade, erro generico, sem-permissao (8 testes) |
+| tests/cluster-attach-report-smoke.test.ts | Attach de relato a cluster, bloqueio por empresa errada (2 testes) |
+| tests/cluster-attach-smoke.test.ts | Attach de economico a cluster, bloqueio por empresa errada (2 testes) |
+| tests/cluster-detach-smoke.test.ts | Detach de relato e economico, bloqueio por empresa errada (4 testes) |
+| tests/cluster-action-error-smoke.test.ts | Fallback status=erro por falha de banco em attach e detach (4 testes) |
 
-- `/admin`
-- `/admin/[section]`
-- `/admin/clusters`
-- `/admin/clusters/[id]`
-- `/moderacao`
+Lacunas intencionais (exigem validacao manual):
 
-### Radar
+- Magic link real e ciclo de sessao no navegador
+- Upload real para storage e leitura de anexo
+- Persistencia real com RLS por papel no banco
+- Reflexo de dados agregados no radar apos associacoes
 
-- `/radar`
+## Riscos e pontos de atencao
 
-## Estado dos Módulos
+### 1) Configuracao do Auth no painel Supabase
 
-### Autenticação e onboarding
+Risco: medio
 
-O login é por magic link e a sessão é persistida por cookies no fluxo SSR. O onboarding coleta apenas:
+Para magic link funcionar localmente:
 
-- pseudônimo
-- vínculo inicial simples
+- Site URL: http://localhost:3000
+- Redirect URL: http://localhost:3000/auth/confirm?next=/onboarding
 
-Não há coleta de nome real, CPF, matrícula ou outro dado sensível desnecessário.
+### 2) IDs de first access no setup inicial
 
-### Relatos
+Risco: baixo
 
-O módulo de relatos está funcional e separado do fluxo econômico. Ele cobre:
+Os scripts de first_access e pilot_setup usam UUIDs fixos. Em novo ambiente, esses UUIDs precisam corresponder a usuarios reais em auth.users antes de executar.
 
-- criação de relato de condições
-- anexos opcionais
-- listagem “Meus relatos”
-- detalhe do relato
-- confirmações autenticadas com deduplicação por usuário
+### 3) Escalabilidade do radar
 
-### Pauta Econômica
+Risco: baixo/medio
 
-O fluxo econômico é separado dos relatos de condições e prioriza:
+A agregacao atual e feita em memoria. Com crescimento de volume, pode ser util migrar agregacoes pesadas para views ou funcoes SQL dedicadas no Supabase.
 
-- tipo de vínculo
-- cargo formal
-- função real
-- faixa salarial em vez de salário exato
-- tipo de problema econômico
-- anexos opcionais
+## Artefatos operacionais disponíveis
 
-Também há listagem “Meus registros econômicos”, detalhe e confirmações autenticadas.
-
-### Clusters
-
-`issue_clusters` virou a camada manual de triagem. Moderadores e admins associam:
-
-- relatos de condições
-- registros econômicos
-
-Isso funciona como ponte entre sinal disperso e pauta objetiva, sem IA e sem duplicar arquitetura.
-
-### Pautas
-
-As pautas nasceram a partir de clusters e hoje têm:
-
-- título
-- texto objetivo
-- tipo
-- prioridade
-- status
-- vínculo com empresa/unidade/setor quando aplicável
-- apoio autenticado de usuários da empresa
-- detalhe com cluster de origem, apoiadores e histórico básico
-
-### Núcleos
-
-Os núcleos funcionam como camada enxuta de organização:
-
-- criação por moderador ou admin
-- escopo por setor ou tema
-- adesão controlada por membros autenticados
-- detalhe com membros, pautas ligadas e encaminhamentos simples
-
-Não existe chat nem comunidade aberta.
-
-### Administração mínima
-
-`/admin` mantém os cadastros estruturais da empresa piloto:
-
-- empresas
-- unidades
-- setores
-- turnos
-- categorias
-
-A interface é simples, mobile-first e sem painel burocrático.
-
-### Moderação mínima
-
-`/moderacao` concentra a revisão inicial:
-
-- relatos
-- registros econômicos
-- anexos
-- associação a clusters
-- sinalização
-- arquivamento
-
-Todas as ações críticas gravam `moderation_events`, que também aparecem como trilha de auditoria em telas internas.
-
-### Radar
-
-`/radar` agora é uma leitura coletiva privada do que já existe. Ele mostra:
-
-- contagem por categoria
-- contagem por setor
-- contagem por turno
-- recortes econômicos simples
-- clusters mais relevantes
-- pautas prioritárias
-
-O radar só lê dados persistidos e agrega em memória. Não há pipeline novo nem analytics sofisticado.
-
-## Banco e RLS
-
-O schema remoto do Supabase está estruturado com:
-
-- `profiles`
-- `companies`
-- `company_memberships`
-- `units`
-- `sectors`
-- `shifts`
-- `report_categories`
-- `reports`
-- `report_attachments`
-- `report_confirmations`
-- `economic_reports`
-- `economic_report_confirmations`
-- `economic_report_attachments`
-- `issue_clusters`
-- `cluster_reports`
-- `cluster_economic_reports`
-- `demands`
-- `demand_supporters`
-- `nuclei`
-- `nucleus_members`
-- `actions`
-- `moderation_events`
-
-Tabelas de apoio:
-
-- `severity_levels`
-- `frequency_levels`
-- `contract_types`
-- `salary_bands`
-- `issue_types`
-- `confirmation_types`
-
-RLS está habilitado em todas as tabelas de negócio. A política segue estes princípios:
-
-- leitura e escrita sempre restringidas por empresa
-- `member` para uso comum
-- `moderator` para revisão e moderação
-- `admin` para administração estrutural
-- `moderation_events` visível para `moderator` e `admin`
-- sem `service_role` no runtime do app
-
-## Qualidade e Hardening
-
-Foi adicionada uma camada mínima de validação e teste para reduzir risco em fluxos críticos:
-
-- parsers compartilhados em `lib/validation/workflows.ts`
-- testes mínimos em `tests/workflows.test.ts`
-- runner `Vitest` no `package.json`
-
-Os fluxos cobertos pelos testes são:
-
-- auth/onboarding
-- criação de relato
-- criação de registro econômico
-- confirmação
-- criação de pauta
-
-## Validação Atual
-
-No estado atual, os comandos abaixo estão válidos:
-
-- `npm run typecheck`
-- `npm run lint`
-- `npm run build`
-- `npm run test`
-
-## Documentação e Operação
-
-O `README.md` documenta:
-
-- visão do produto
-- stack
-- módulos
-- schema
-- políticas
-- sync remoto do Supabase
-- preparação de empresa piloto
-- diferenças entre cluster, pauta e núcleo
-- regras de permissão entre member, moderator e admin
-
-## Pontos de Atenção
-
-- O radar ainda agrega em memória; se a base crescer muito, a próxima evolução natural é mover essas contagens para SQL.
-- A operação depende de migrations bem ordenadas e sincronizadas com o remoto.
-- A modelagem está estável, mas ainda há bastante superfície de consulta entre módulos; mudanças em schema devem continuar passando pelo checklist de sync.
-
-## Conclusão
-
-O projeto já está em uma forma operacional consistente. A base técnica, a separação entre papéis e a navegação principal estão prontas. O que mais falta agora é uso real, volume de dados e eventual refinamento do radar e da governança a partir da operação da empresa piloto.
+| Arquivo | Finalidade |
+|---|---|
+| reports/guia-operacao-piloto.md | Roteiro operacional de abertura do piloto |
+| reports/checklist-uso-inicial-piloto.md | Checklist curto de uso inicial para a equipe |
+| reports/roteiro-smoke-piloto.md | Smoke funcional guiado com mapa de cobertura automatica vs manual |
+| reports/supabase-bootstrap-checklist.md | Ordem tecnica de bootstrap e validacoes rapidas |
+| reports/relatorio-validacao-funcional-ponta-a-ponta.md | Validacao funcional descritiva do sistema |
+| README.md | Guia completo de setup local, schema e fluxos do produto |

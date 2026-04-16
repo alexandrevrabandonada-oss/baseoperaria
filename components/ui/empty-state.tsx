@@ -21,16 +21,16 @@ export function EmptyState({
   title,
 }: EmptyStateProps) {
   return (
-    <section className="rounded-xl border border-dashed border-border bg-card p-6">
-      <div className="flex flex-col gap-3">
-        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-primary/85">
+    <section className="surface-subtle border-dashed">
+      <div className="flex flex-col gap-3 sm:gap-4">
+        <p className="section-kicker">
           {eyebrow}
         </p>
-        <h2 className="text-xl font-bold uppercase tracking-[0.04em] text-foreground">{title}</h2>
-        <p className="max-w-2xl text-sm leading-6 text-muted-foreground">{description}</p>
+        <h2 className="text-xl font-bold uppercase tracking-[0.04em] text-foreground sm:text-2xl">{title}</h2>
+        <p className="section-copy max-w-2xl">{description}</p>
         {actionHref && actionLabel ? (
-          <div className="pt-1">
-            <Link href={actionHref} className={cn(buttonVariants({ variant: actionVariant }))}>
+          <div className="pt-1.5">
+            <Link href={actionHref} className={cn(buttonVariants({ variant: actionVariant, size: "sm" }))}>
               {actionLabel}
             </Link>
           </div>

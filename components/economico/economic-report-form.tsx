@@ -123,7 +123,7 @@ export function EconomicReportForm({
 
       <input type="hidden" name="company_id" value={companyId} />
 
-      <section className="rounded-2xl border bg-card p-4">
+      <section className="surface-subtle">
         <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
           Empresa selecionada
         </p>
@@ -133,7 +133,7 @@ export function EconomicReportForm({
         </p>
       </section>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:gap-5">
         <SelectField label="Unidade" name="unit_id" options={unitOptions} placeholder="Sem recorte de unidade" />
         <SelectField label="Setor" name="sector_id" options={sectorOptions} placeholder="Sem recorte de setor" />
         <SelectField label="Turno" name="shift_id" options={shiftOptions} placeholder="Sem recorte de turno" />
@@ -145,7 +145,7 @@ export function EconomicReportForm({
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:gap-5">
         <LookupField
           label="Faixa salarial"
           name="salary_band_code"
@@ -160,7 +160,7 @@ export function EconomicReportForm({
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:gap-5">
         <label className="flex flex-col gap-2 text-sm font-medium">
           Cargo na carteira
           <input

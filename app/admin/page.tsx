@@ -17,26 +17,26 @@ export default async function AdminHomePage() {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-3xl border bg-card p-6">
+    <div className="page-stack">
+      <section className="surface-hero">
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium text-muted-foreground">Administração</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Cadastros de apoio</h1>
-          <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+          <p className="section-label">Administração</p>
+          <h1 className="section-title">Cadastros de apoio</h1>
+          <p className="section-copy">
             Área restrita para manter a base organizacional do piloto com uma interface simples e
             móvel.
           </p>
         </div>
       </section>
 
-      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        <div className="rounded-2xl border bg-card p-4">
+      <section className="metric-grid xl:grid-cols-3">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Empresas administrativas
           </p>
           <p className="mt-2 text-2xl font-semibold">{context.companies.length}</p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Acesso
           </p>
@@ -45,7 +45,7 @@ export default async function AdminHomePage() {
             permanece na área principal.
           </p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Ordem recomendada
           </p>
@@ -60,7 +60,7 @@ export default async function AdminHomePage() {
           <Link
             key={item.slug}
             href={item.href}
-            className="rounded-2xl border bg-card p-4 transition-colors hover:bg-muted/40"
+            className="surface-subtle transition-colors hover:border-primary/30 hover:bg-muted/42"
           >
             <div className="flex h-full flex-col gap-2">
               <p className="text-sm font-semibold">{item.label}</p>
@@ -71,10 +71,10 @@ export default async function AdminHomePage() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <p className="text-sm font-medium text-muted-foreground">Empresas disponíveis</p>
+        <p className="section-label">Empresas disponíveis</p>
         <div className="grid gap-3">
           {context.companies.map((company) => (
-            <article key={company.id} className="rounded-2xl border bg-card p-4">
+            <article key={company.id} className="surface-panel p-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col gap-1">
                   <h2 className="text-base font-semibold">{company.name}</h2>

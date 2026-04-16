@@ -28,7 +28,7 @@ function SectionMeta({
   value: string;
 }) {
   return (
-    <div className="rounded-xl border bg-background p-3">
+    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
       <p className="mt-1 text-lg font-semibold">{value}</p>
     </div>
@@ -220,15 +220,15 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
 
   if (!selectedCompany) {
     return (
-      <div className="flex flex-col gap-6">
-        <section className="rounded-3xl border bg-card p-6">
+      <div className="page-stack">
+        <section className="surface-hero">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+              <p className="section-label">
                 Moderação
               </p>
-              <h1 className="text-3xl font-semibold tracking-tight">Revisão inicial</h1>
-              <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+              <h1 className="section-title">Revisão inicial</h1>
+              <p className="section-copy">
                 Área para revisar relatos, registros econômicos e provas, amarrar sinais em cluster e deixar rastro de cada ação crítica.
               </p>
             </div>
@@ -256,7 +256,7 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
 
         <ModerationStatusBanner status={status} />
 
-        <section className="rounded-2xl border border-dashed border-border bg-card p-6">
+        <section className="surface-subtle border-dashed">
           <div className="flex flex-col gap-2">
             <h2 className="text-base font-semibold">Escolha uma empresa</h2>
             <p className="text-sm text-muted-foreground">
@@ -269,15 +269,15 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-3xl border bg-card p-6">
+    <div className="page-stack">
+      <section className="surface-hero">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+            <p className="section-label">
               Moderação
             </p>
-            <h1 className="text-3xl font-semibold tracking-tight">Revisão inicial</h1>
-            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+            <h1 className="section-title">Revisão inicial</h1>
+            <p className="section-copy">
               Área mínima para revisar relatos, registros econômicos e anexos, vincular itens a
               clusters e registrar toda ação crítica.
             </p>
@@ -307,14 +307,14 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
       <ModerationStatusBanner status={status} />
 
       <>
-        <section className="grid gap-3 md:grid-cols-4">
+        <section className="metric-grid">
           <SectionMeta label="Relatos" value={String(context.reports.length)} />
           <SectionMeta label="Registros econômicos" value={String(context.economicReports.length)} />
           <SectionMeta label="Anexos" value={String(context.attachments.length)} />
           <SectionMeta label="Ações recentes" value={String(context.recentEvents.length)} />
         </section>
 
-        <section className="rounded-2xl border bg-card p-5">
+        <section className="surface-panel p-5">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <h2 className="text-base font-semibold">Relatos em revisão</h2>
@@ -354,7 +354,7 @@ export function ModerationDashboard({ context, status }: ModerationDashboardProp
           </div>
         </section>
 
-        <section className="rounded-2xl border bg-card p-5">
+        <section className="surface-panel p-5">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <h2 className="text-base font-semibold">Registros econômicos em revisão</h2>

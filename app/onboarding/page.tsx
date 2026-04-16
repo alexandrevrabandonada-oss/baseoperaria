@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { completeOnboardingAction } from "@/app/auth/actions";
 import { AuthMessage } from "@/components/auth/auth-message";
-import { Button } from "@/components/ui/button";
+import { AuthSubmitButton } from "@/components/auth/auth-submit-button";
 import { getAuthContext, hasCompletedOnboarding } from "@/lib/supabase/queries";
 
 type OnboardingPageProps = {
@@ -17,7 +17,7 @@ export default async function OnboardingPage({
   const [params, auth] = await Promise.all([searchParams, getAuthContext()]);
 
   if (!auth.user) {
-    redirect("/entrar");
+    redirect("/entrar?status=sessao-expirada");
   }
 
   if (hasCompletedOnboarding(auth)) {
@@ -25,14 +25,14 @@ export default async function OnboardingPage({
   }
 
   return (
-    <section className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-xl border border-border bg-card p-6 shadow-[0_20px_48px_rgb(0_0_0_/_0.34)] sm:p-7">
-      <header className="flex flex-col gap-2">
-        <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/85">Cadastro inicial</p>
-        <h1 className="text-3xl font-bold uppercase tracking-[0.04em] text-foreground">
-          Feche sua entrada na base
+    <section className="auth-panel">
+      <header className="flex flex-col gap-2.5 sm:gap-3">
+        <p className="section-kicker">Primeira entrada</p>
+        <h1 className="section-title text-3xl sm:text-[2.15rem]">
+          Termine sua entrada na base
         </h1>
-        <p className="text-sm leading-6 text-muted-foreground">
-          Pedimos só o necessário para liberar sua entrada sem recolher dado sensível.
+        <p className="section-copy max-w-none">
+          Falta so o basico para liberar sua entrada com seguranca e sem expor voce.
         </p>
       </header>
 
@@ -41,6 +41,9 @@ export default async function OnboardingPage({
       <form action={completeOnboardingAction} className="flex flex-col gap-4">
         <label className="flex flex-col gap-2 text-sm font-medium">
           Pseudônimo
+          <span className="text-xs font-normal leading-5 text-muted-foreground">
+            Como voce vai aparecer na base.
+          </span>
           <input
             type="text"
             name="pseudonym"
@@ -50,12 +53,18 @@ export default async function OnboardingPage({
             maxLength={40}
             defaultValue={auth.profile?.pseudonym ?? ""}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Como você quer aparecer na base"
+            placeholder="Ex.: Metal 3, Turno B, Apoio Sul"
           />
+          <span className="text-xs font-normal leading-5 text-muted-foreground">
+            Use entre 2 e 40 caracteres.
+          </span>
         </label>
 
         <label className="flex flex-col gap-2 text-sm font-medium">
-          Vínculo de base
+          Qual e seu vinculo?
+          <span className="text-xs font-normal leading-5 text-muted-foreground">
+            Pode ser setor, turno, funcao, territorio ou frente de apoio.
+          </span>
           <input
             type="text"
             name="initialLink"
@@ -64,18 +73,18 @@ export default async function OnboardingPage({
             maxLength={60}
             defaultValue={auth.profile?.initial_link ?? ""}
             className="h-11 rounded-lg border border-input bg-background px-3 text-sm outline-none transition focus:border-ring focus:ring-2 focus:ring-ring/30"
-            placeholder="Ex.: setor, turno, território ou apoio"
+            placeholder="Ex.: montagem, turno da noite, manutencao, apoio bairro"
           />
+          <span className="text-xs font-normal leading-5 text-muted-foreground">
+            Use entre 2 e 60 caracteres.
+          </span>
         </label>
 
         <p className="text-xs leading-5 text-muted-foreground">
-          Não pedimos nome real, CPF, matrícula ou outros dados sensíveis nesta
-          etapa.
+          Seu pseudonimo protege sua identidade. Aqui entra so o essencial para comecar.
         </p>
 
-        <Button type="submit" className="w-full">
-          Liberar entrada
-        </Button>
+        <AuthSubmitButton idleLabel="Entrar na base" pendingLabel="Liberando entrada..." />
       </form>
     </section>
   );

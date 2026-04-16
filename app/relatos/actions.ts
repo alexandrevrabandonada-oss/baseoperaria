@@ -31,14 +31,45 @@ async function ensureCompanyMembership(
   companyId: string,
   profileId: string,
 ) {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("company_memberships")
     .select("company_id")
     .eq("company_id", companyId)
     .eq("profile_id", profileId)
     .maybeSingle();
 
+  if (error) {
+    console.error("[relatos] falha ao verificar membership", {
+      companyId,
+      message: error.message,
+      profileId,
+    });
+    return false;
+  }
+
   return Boolean(data);
+}
+
+async function cleanupUploadedReportFiles(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  uploadedPaths: string[],
+  reportId: string,
+) {
+  if (uploadedPaths.length === 0) {
+    return;
+  }
+
+  const { error } = await supabase.storage
+    .from(reportAttachmentsBucket)
+    .remove(uploadedPaths);
+
+  if (error) {
+    console.error("[relatos] falha na limpeza de anexos apos erro de persistencia", {
+      message: error.message,
+      reportId,
+      uploadedPaths,
+    });
+  }
 }
 
 export async function createReportAction(
@@ -176,6 +207,12 @@ export async function createReportAction(
     .single();
 
   if (reportError || !report) {
+    console.error("[relatos] falha ao inserir relato", {
+      code: reportError?.code,
+      companyId,
+      message: reportError?.message,
+      userId: auth.user.id,
+    });
     return { error: "Não conseguimos registrar o relato agora." };
   }
 
@@ -199,6 +236,12 @@ export async function createReportAction(
   for (const file of attachments) {
     if (file.size > maxAttachmentSizeBytes) {
       attachmentFailures += 1;
+      console.warn("[relatos] anexo ignorado por tamanho", {
+        fileName: file.name,
+        maxAttachmentSizeBytes,
+        reportId: report.id,
+        size: file.size,
+      });
       continue;
     }
 
@@ -210,6 +253,12 @@ export async function createReportAction(
 
     if (uploadResult.error) {
       attachmentFailures += 1;
+      console.error("[relatos] falha no upload de anexo", {
+        fileName: file.name,
+        message: uploadResult.error.message,
+        reportId: report.id,
+        storagePath,
+      });
       continue;
     }
 
@@ -233,7 +282,12 @@ export async function createReportAction(
 
     if (attachmentInsertError) {
       attachmentFailures += 1;
-      await supabase.storage.from(reportAttachmentsBucket).remove(uploadedPaths);
+      console.error("[relatos] falha ao persistir metadados de anexos", {
+        code: attachmentInsertError.code,
+        message: attachmentInsertError.message,
+        reportId: report.id,
+      });
+      await cleanupUploadedReportFiles(supabase, uploadedPaths, report.id);
     }
   }
 
@@ -271,11 +325,21 @@ export async function confirmReportAction(
   const { reportId, confirmationTypeCode } = parsed.value;
 
   const supabase = await createClient();
-  const { data: report } = await supabase
+  const { data: report, error: reportError } = await supabase
     .from("reports")
     .select("id, company_id, created_by_profile_id")
     .eq("id", reportId)
     .maybeSingle();
+
+  if (reportError) {
+    console.error("[relatos] falha ao carregar relato para confirmacao", {
+      code: reportError.code,
+      message: reportError.message,
+      reportId,
+      userId: auth.user.id,
+    });
+    return { error: "Não foi possível confirmar este relato agora." };
+  }
 
   if (!report) {
     return { error: "Relato não encontrado." };
@@ -303,6 +367,12 @@ export async function confirmReportAction(
   );
 
   if (error) {
+    console.error("[relatos] falha ao salvar confirmacao", {
+      code: error.code,
+      message: error.message,
+      reportId,
+      userId: auth.user.id,
+    });
     return { error: "Não foi possível confirmar este relato agora." };
   }
 

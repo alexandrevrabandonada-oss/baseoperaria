@@ -34,14 +34,45 @@ async function ensureCompanyMembership(
   companyId: string,
   profileId: string,
 ) {
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from("company_memberships")
     .select("company_id")
     .eq("company_id", companyId)
     .eq("profile_id", profileId)
     .maybeSingle();
 
+  if (error) {
+    console.error("[economico] falha ao verificar membership", {
+      companyId,
+      message: error.message,
+      profileId,
+    });
+    return false;
+  }
+
   return Boolean(data);
+}
+
+async function cleanupUploadedEconomicFiles(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  uploadedPaths: string[],
+  reportId: string,
+) {
+  if (uploadedPaths.length === 0) {
+    return;
+  }
+
+  const { error } = await supabase.storage
+    .from(economicAttachmentsBucket)
+    .remove(uploadedPaths);
+
+  if (error) {
+    console.error("[economico] falha na limpeza de anexos apos erro de persistencia", {
+      message: error.message,
+      reportId,
+      uploadedPaths,
+    });
+  }
 }
 
 export async function createEconomicReportAction(
@@ -192,6 +223,12 @@ export async function createEconomicReportAction(
     .single();
 
   if (reportError || !report) {
+    console.error("[economico] falha ao inserir registro", {
+      code: reportError?.code,
+      companyId,
+      message: reportError?.message,
+      userId: auth.user.id,
+    });
     return { error: "Não conseguimos registrar a pauta econômica agora." };
   }
 
@@ -215,6 +252,12 @@ export async function createEconomicReportAction(
   for (const file of attachments) {
     if (file.size > maxAttachmentSizeBytes) {
       attachmentFailures += 1;
+      console.warn("[economico] anexo ignorado por tamanho", {
+        fileName: file.name,
+        maxAttachmentSizeBytes,
+        reportId: report.id,
+        size: file.size,
+      });
       continue;
     }
 
@@ -226,6 +269,12 @@ export async function createEconomicReportAction(
 
     if (uploadResult.error) {
       attachmentFailures += 1;
+      console.error("[economico] falha no upload de anexo", {
+        fileName: file.name,
+        message: uploadResult.error.message,
+        reportId: report.id,
+        storagePath,
+      });
       continue;
     }
 
@@ -249,7 +298,12 @@ export async function createEconomicReportAction(
 
     if (attachmentInsertError) {
       attachmentFailures += 1;
-      await supabase.storage.from(economicAttachmentsBucket).remove(uploadedPaths);
+      console.error("[economico] falha ao persistir metadados de anexos", {
+        code: attachmentInsertError.code,
+        message: attachmentInsertError.message,
+        reportId: report.id,
+      });
+      await cleanupUploadedEconomicFiles(supabase, uploadedPaths, report.id);
     }
   }
 
@@ -287,11 +341,21 @@ export async function confirmEconomicReportAction(
   const { reportId, confirmationTypeCode } = parsedConfirmation.value;
 
   const supabase = await createClient();
-  const { data: report } = await supabase
+  const { data: report, error: reportError } = await supabase
     .from("economic_reports")
     .select("id, company_id, created_by_profile_id")
     .eq("id", reportId)
     .maybeSingle();
+
+  if (reportError) {
+    console.error("[economico] falha ao carregar registro para confirmacao", {
+      code: reportError.code,
+      message: reportError.message,
+      reportId,
+      userId: auth.user.id,
+    });
+    return { error: "Não foi possível confirmar este registro agora." };
+  }
 
   if (!report) {
     return { error: "Registro econômico não encontrado." };
@@ -319,6 +383,12 @@ export async function confirmEconomicReportAction(
   );
 
   if (error) {
+    console.error("[economico] falha ao salvar confirmacao", {
+      code: error.code,
+      message: error.message,
+      reportId,
+      userId: auth.user.id,
+    });
     return { error: "Não foi possível confirmar este registro agora." };
   }
 

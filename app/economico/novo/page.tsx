@@ -4,6 +4,7 @@ import { CompanyChips } from "@/components/relatos/company-chips";
 import { EconomicEmptyState } from "@/components/economico/economic-empty-state";
 import { EconomicReportForm } from "@/components/economico/economic-report-form";
 import { EconomicStatusBanner } from "@/components/economico/economic-status-banner";
+import { getAuthContext } from "@/lib/supabase/queries";
 import { getEconomicFormContext } from "@/lib/supabase/economico";
 
 type EconomicNovoPageProps = {
@@ -15,6 +16,12 @@ type EconomicNovoPageProps = {
 
 export default async function EconomicNovoPage({ searchParams }: EconomicNovoPageProps) {
   const params = await searchParams;
+  const auth = await getAuthContext();
+
+  if (!auth.user) {
+    redirect("/entrar?status=sessao-expirada");
+  }
+
   const context = await getEconomicFormContext(params.company_id);
 
   if (!context.companies.length) {

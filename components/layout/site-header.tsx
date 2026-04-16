@@ -25,20 +25,20 @@ export async function SiteHeader({ pathname }: SiteHeaderProps) {
   const showModeration = moderationAccess.canModerate;
 
   return (
-    <header className="sticky top-0 z-30 pt-0 sm:pt-4">
-      <div className="overflow-hidden border-b border-border/80 bg-card/90 shadow-[0_16px_42px_rgb(0_0_0_/_0.26)] backdrop-blur supports-[backdrop-filter]:bg-card/80 sm:rounded-2xl sm:border">
-        <div className="flex flex-col gap-5 px-4 py-4 sm:px-6 sm:py-5">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0 space-y-2">
-              <p className="text-[0.68rem] font-semibold uppercase tracking-[0.28em] text-primary/85">
+    <header className="sticky top-2 z-30">
+      <div className="overflow-hidden rounded-2xl border border-border/75 bg-background/82 shadow-[0_12px_30px_rgb(0_0_0_/_0.24)] backdrop-blur supports-[backdrop-filter]:bg-background/72">
+        <div className="flex flex-col gap-3 px-4 py-3 sm:px-5 sm:py-4">
+          <div className="flex items-start justify-between gap-3 sm:items-center">
+            <div className="min-w-0 space-y-1.5">
+              <p className="hidden text-[0.62rem] font-semibold uppercase tracking-[0.24em] text-primary/80 sm:block">
                 Ferramenta de base
               </p>
               <Link href="/" className="block w-fit">
-                <span className="block font-heading text-2xl font-bold uppercase tracking-[0.08em] text-foreground sm:text-3xl">
+                <span className="block font-heading text-[1.35rem] font-bold uppercase tracking-[0.06em] text-foreground sm:text-[1.6rem]">
                   Base Operária
                 </span>
               </Link>
-              <p className="max-w-xl text-xs leading-5 text-muted-foreground sm:text-sm">
+              <p className="hidden max-w-xl text-xs leading-5 text-muted-foreground md:block">
                 Espaço fechado para registrar problema, juntar prova e puxar pauta coletiva.
               </p>
             </div>
@@ -51,7 +51,7 @@ export async function SiteHeader({ pathname }: SiteHeaderProps) {
                   </button>
                 </form>
               ) : (
-                <Link href="/entrar" className={cn(buttonVariants({ size: "sm" }))}>
+                <Link href="/entrar" className={cn(buttonVariants({ size: "sm" }), "shadow-[0_8px_18px_rgb(0_0_0_/_0.22)]")}>
                   Entrar
                 </Link>
               )}
@@ -71,7 +71,7 @@ export async function SiteHeader({ pathname }: SiteHeaderProps) {
                   </button>
                 </form>
               ) : (
-                <Link href="/entrar" className={cn(buttonVariants({ size: "sm" }))}>
+                <Link href="/entrar" className={cn(buttonVariants({ size: "sm" }), "shadow-[0_8px_18px_rgb(0_0_0_/_0.22)]")}>
                   Entrar
                 </Link>
               )}
@@ -79,7 +79,7 @@ export async function SiteHeader({ pathname }: SiteHeaderProps) {
           </div>
 
           <nav aria-label="Principal" className="hidden sm:block">
-            <ul className="flex flex-wrap gap-2">
+            <ul className="flex flex-wrap gap-1.5 overflow-x-auto pb-0.5">
               {navigationItems.map((item) => {
                 const active = isActivePath(pathname, item.href);
 
@@ -88,10 +88,10 @@ export async function SiteHeader({ pathname }: SiteHeaderProps) {
                     <Link
                       href={item.href}
                       className={cn(
-                        "inline-flex min-h-10 items-center rounded-md border px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-colors",
+                        "inline-flex min-h-9 items-center rounded-md border px-2.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-colors",
                         active
-                          ? "border-primary/65 bg-primary text-primary-foreground shadow-[0_8px_22px_rgb(0_0_0_/_0.25)]"
-                          : "border-transparent bg-transparent text-muted-foreground hover:border-border/70 hover:bg-muted/72 hover:text-foreground",
+                          ? "border-primary/60 bg-primary text-primary-foreground shadow-[0_6px_16px_rgb(0_0_0_/_0.2)]"
+                          : "border-border/60 bg-background/40 text-muted-foreground hover:border-primary/35 hover:bg-muted/62 hover:text-foreground",
                       )}
                     >
                       {item.label}
@@ -104,10 +104,10 @@ export async function SiteHeader({ pathname }: SiteHeaderProps) {
                   <Link
                     href="/moderacao"
                     className={cn(
-                      "inline-flex min-h-10 items-center rounded-md border px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-colors",
+                      "inline-flex min-h-9 items-center rounded-md border px-2.5 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.12em] transition-colors",
                       isActivePath(pathname, "/moderacao")
-                        ? "border-primary/65 bg-primary text-primary-foreground shadow-[0_8px_22px_rgb(0_0_0_/_0.25)]"
-                        : "border-transparent bg-transparent text-muted-foreground hover:border-border/70 hover:bg-muted/72 hover:text-foreground",
+                        ? "border-primary/60 bg-primary text-primary-foreground shadow-[0_6px_16px_rgb(0_0_0_/_0.2)]"
+                        : "border-border/60 bg-background/40 text-muted-foreground hover:border-primary/35 hover:bg-muted/62 hover:text-foreground",
                     )}
                   >
                     Moderação

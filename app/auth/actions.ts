@@ -17,16 +17,29 @@ export async function signInWithMagicLinkAction(formData: FormData) {
     redirect("/entrar?status=email-invalido");
   }
 
-  const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: getSiteUrl("/auth/confirm?next=/onboarding"),
-      shouldCreateUser: true,
-    },
-  });
+  try {
+    const supabase = await createClient();
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: getSiteUrl("/auth/confirm?next=/onboarding"),
+        shouldCreateUser: true,
+      },
+    });
 
-  if (error) {
+    if (error) {
+      console.error("[auth] falha ao enviar magic link", {
+        code: error.code,
+        email,
+        message: error.message,
+      });
+      redirect("/entrar?status=erro-envio");
+    }
+  } catch (error) {
+    console.error("[auth] erro inesperado no envio de magic link", {
+      email,
+      error,
+    });
     redirect("/entrar?status=erro-envio");
   }
 
@@ -58,10 +71,15 @@ export async function completeOnboardingAction(formData: FormData) {
   const supabase = await createClient();
   const {
     data: { user },
+    error: userError,
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/entrar");
+  if (userError || !user) {
+    console.error("[auth] falha ao obter sessao no onboarding", {
+      code: userError?.code,
+      message: userError?.message,
+    });
+    redirect("/entrar?status=sessao-expirada");
   }
 
   const { error } = await supabase.from("profiles").upsert(
@@ -76,7 +94,12 @@ export async function completeOnboardingAction(formData: FormData) {
   );
 
   if (error) {
-    redirect("/onboarding?status=erro");
+    console.error("[auth] falha ao persistir profile no onboarding", {
+      code: error.code,
+      message: error.message,
+      userId: user.id,
+    });
+    redirect("/onboarding?status=erro-perfil");
   }
 
   revalidatePath("/", "layout");

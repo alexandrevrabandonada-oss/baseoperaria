@@ -59,12 +59,12 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
     : {};
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-3xl border bg-card p-6">
+    <div className="page-stack">
+      <section className="surface-hero">
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium text-muted-foreground">Núcleos</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Organização de base ligada à pauta</h1>
-          <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+          <p className="section-label">Núcleos</p>
+          <h1 className="section-title">Organização de base ligada à pauta</h1>
+          <p className="section-copy">
             Núcleos juntam gente por setor ou tema para tocar pauta, encaminhamento e ação sem virar rede social.
           </p>
         </div>
@@ -78,26 +78,26 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
         targetPath="/nucleos"
       />
 
-      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl border bg-card p-4">
+      <section className="metric-grid">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Núcleos
           </p>
           <p className="mt-2 text-2xl font-semibold">{context.nuclei.length}</p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Membros
           </p>
           <p className="mt-2 text-2xl font-semibold">{totalMembers}</p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Pautas ligadas
           </p>
           <p className="mt-2 text-2xl font-semibold">{totalLinkedDemands}</p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Encaminhamentos
           </p>
@@ -105,7 +105,7 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
         </div>
       </section>
 
-      <section className="rounded-2xl border bg-card p-4">
+      <section className="surface-subtle">
         <div className="flex flex-col gap-3">
           <p className="text-sm leading-6 text-muted-foreground">
             {canManage
@@ -124,7 +124,7 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
       </section>
 
       <section className="flex flex-col gap-3">
-        <p className="text-sm font-medium text-muted-foreground">Núcleos cadastrados</p>
+        <p className="section-label">Núcleos cadastrados</p>
         {context.nuclei.length === 0 ? (
           <NucleosEmptyState
             title="Nenhum núcleo ainda"
@@ -138,7 +138,7 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
         ) : (
           <div className="grid gap-3">
             {context.nuclei.map((nucleus) => (
-              <article key={nucleus.id} className="rounded-2xl border bg-card p-4">
+              <article key={nucleus.id} className="surface-panel p-4">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex min-w-0 flex-col gap-1">
@@ -158,26 +158,26 @@ export function NucleosListView({ context, status }: NucleosListViewProps) {
                     <p className="text-sm leading-6 text-muted-foreground">Sem resumo registrado.</p>
                   )}
 
-                  <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4">
-                    <div className="rounded-xl border bg-background p-3">
+                  <div className="meta-grid">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Pautas ligadas
                       </p>
                       <p className="mt-1 text-lg font-semibold">{nucleus.linkedDemandCount}</p>
                     </div>
-                    <div className="rounded-xl border bg-background p-3">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Encaminhamentos
                       </p>
                       <p className="mt-1 text-lg font-semibold">{nucleus.actionCount}</p>
                     </div>
-                    <div className="rounded-xl border bg-background p-3">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Membros
                       </p>
                       <p className="mt-1 text-lg font-semibold">{nucleus.memberCount}</p>
                     </div>
-                    <div className="rounded-xl border bg-background p-3">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Atualizado
                       </p>

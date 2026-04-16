@@ -20,9 +20,9 @@ export async function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="relative min-h-dvh overflow-x-clip">
-      <div className="mx-auto flex min-h-dvh w-full max-w-6xl flex-col sm:px-4">
+      <div className="mx-auto flex min-h-dvh w-full max-w-[84rem] flex-col px-3 sm:px-4 lg:px-5">
         <SiteHeader pathname={pathname} />
-        <main className="flex-1 px-4 pb-28 pt-6 sm:px-6 sm:pb-12 sm:pt-8">
+        <main className="flex-1 px-1 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-4 sm:px-2 sm:pb-12 sm:pt-5 lg:pt-6">
           {children}
         </main>
         <MobileBottomNav pathname={pathname} />

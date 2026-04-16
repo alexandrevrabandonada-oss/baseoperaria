@@ -22,8 +22,8 @@ export function CompanyChips({
   }
 
   return (
-    <section className="flex flex-col gap-3">
-      <p className="text-sm font-medium text-muted-foreground">{label}</p>
+    <section className="filter-strip flex flex-col gap-3">
+      <p className="section-label">{label}</p>
       <div className="flex flex-wrap gap-2">
         <Link
           href={targetPath}

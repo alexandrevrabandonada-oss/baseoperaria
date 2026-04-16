@@ -46,12 +46,12 @@ export function PautasListView({ context, status }: PautasListViewProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-3xl border bg-card p-6">
+    <div className="page-stack">
+      <section className="surface-hero">
         <div className="flex flex-col gap-3">
-          <p className="text-sm font-medium text-muted-foreground">Pautas</p>
-          <h1 className="text-3xl font-semibold tracking-tight">Pautas que saem do problema e ganham forma</h1>
-          <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+          <p className="section-label">Pautas</p>
+          <h1 className="section-title">Pautas que saem do problema e ganham forma</h1>
+          <p className="section-copy">
             Aqui o acúmulo vira pauta com prioridade, situação e apoio de quem faz parte da base.
           </p>
         </div>
@@ -65,7 +65,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
         targetPath="/pautas"
       />
 
-      <section className="rounded-2xl border bg-card p-4">
+      <section className="surface-subtle">
         <div className="flex flex-col gap-3">
           <p className="text-sm leading-6 text-muted-foreground">
             A pauta nasce do cluster. Quem está na base acompanha, lê e apoia sem perder o foco no que precisa ser enfrentado.
@@ -82,7 +82,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
       </section>
 
       <section className="flex flex-col gap-3">
-        <p className="text-sm font-medium text-muted-foreground">Pautas cadastradas</p>
+        <p className="section-label">Pautas cadastradas</p>
         {context.demands.length === 0 ? (
           <PautasEmptyState
             title="Nenhuma pauta ainda"
@@ -91,7 +91,7 @@ export function PautasListView({ context, status }: PautasListViewProps) {
         ) : (
           <div className="grid gap-3">
             {context.demands.map((demand) => (
-              <article key={demand.id} className="rounded-2xl border bg-card p-4">
+              <article key={demand.id} className="surface-panel p-4">
                 <div className="flex flex-col gap-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex min-w-0 flex-col gap-1">
@@ -109,26 +109,26 @@ export function PautasListView({ context, status }: PautasListViewProps) {
                     <p className="text-sm leading-6 text-muted-foreground">{demand.description}</p>
                   ) : null}
 
-                  <div className="grid gap-2 sm:grid-cols-2 md:grid-cols-4">
-                    <div className="rounded-xl border bg-background p-3">
+                  <div className="meta-grid">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Apoios
                       </p>
                       <p className="mt-1 text-lg font-semibold">{demand.supportCount}</p>
                     </div>
-                    <div className="rounded-xl border bg-background p-3">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Unidade
                       </p>
                       <p className="mt-1 text-sm font-semibold">{demand.unitName ?? "Sem recorte de unidade"}</p>
                     </div>
-                    <div className="rounded-xl border bg-background p-3">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Setor
                       </p>
                       <p className="mt-1 text-sm font-semibold">{demand.sectorName ?? "Sem recorte de setor"}</p>
                     </div>
-                    <div className="rounded-xl border bg-background p-3">
+                    <div className="rounded-xl border border-border/70 bg-background/72 p-3">
                       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         Cluster
                       </p>

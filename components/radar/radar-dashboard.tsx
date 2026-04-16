@@ -22,7 +22,7 @@ function SectionCard({
   title: string;
 }) {
   return (
-    <section className="rounded-2xl border bg-card p-5">
+    <section className="surface-panel p-5">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <h2 className="text-base font-semibold">{title}</h2>
@@ -34,7 +34,7 @@ function SectionCard({
         ) : (
           <div className="grid gap-2">
             {items.slice(0, 5).map((item, index) => (
-              <div key={`${item.label}-${index}`} className="flex items-center justify-between gap-3 rounded-xl border bg-background px-3 py-2">
+              <div key={`${item.label}-${index}`} className="flex items-center justify-between gap-3 rounded-xl border border-border/70 bg-background/72 px-3 py-2">
                 <span className="text-sm font-medium">{item.label}</span>
                 <span className="text-sm text-muted-foreground">{item.count}</span>
               </div>
@@ -52,13 +52,13 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
 
   if (!selectedCompany) {
     return (
-      <div className="flex flex-col gap-6">
-        <section className="rounded-3xl border bg-card p-6">
+      <div className="page-stack">
+        <section className="surface-hero">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <p className="text-sm font-medium text-muted-foreground">Radar</p>
-              <h1 className="text-3xl font-semibold tracking-tight">Leitura privada do que está se repetindo</h1>
-              <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+              <p className="section-label">Radar</p>
+              <h1 className="section-title">Leitura privada do que está se repetindo</h1>
+              <p className="section-copy">
                 O radar junta relatos, frente econômica, clusters e pautas para mostrar onde o problema está apertando mais.
               </p>
             </div>
@@ -99,13 +99,13 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-3xl border bg-card p-6">
+    <div className="page-stack">
+      <section className="surface-hero">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium text-muted-foreground">Radar</p>
-            <h1 className="text-3xl font-semibold tracking-tight">Leitura privada do que está se repetindo</h1>
-            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+            <p className="section-label">Radar</p>
+            <h1 className="section-title">Leitura privada do que está se repetindo</h1>
+            <p className="section-copy">
               Leitura montada a partir do que já foi registrado em {selectedCompany.name}. O foco é enxergar repetição, peso e prioridade.
             </p>
           </div>
@@ -133,9 +133,9 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
 
       <RadarStatusBanner status={status} />
 
-      <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+      <section className="metric-grid">
         {context.summaryCards.map((card) => (
-          <div key={card.label} className="rounded-2xl border bg-card p-4">
+          <div key={card.label} className="surface-metric">
             <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
               {card.label}
             </p>
@@ -182,7 +182,7 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <section className="rounded-2xl border bg-card p-5">
+        <section className="surface-panel p-5">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <h2 className="text-base font-semibold">Clusters mais relevantes</h2>
@@ -196,7 +196,7 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
             ) : (
               <div className="grid gap-3">
                 {context.topClusters.map((cluster) => (
-                  <article key={cluster.id} className="rounded-xl border bg-background p-4">
+                  <article key={cluster.id} className="rounded-xl border border-border/70 bg-background/72 p-4">
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                         <span className="rounded-full border px-2 py-1 font-medium">
@@ -219,7 +219,7 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
           </div>
         </section>
 
-        <section className="rounded-2xl border bg-card p-5">
+        <section className="surface-panel p-5">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <h2 className="text-base font-semibold">Pautas prioritárias</h2>
@@ -233,7 +233,7 @@ export function RadarDashboard({ context, status }: RadarDashboardProps) {
             ) : (
               <div className="grid gap-3">
                 {context.priorityDemands.map((demand) => (
-                  <article key={demand.id} className="rounded-xl border bg-background p-4">
+                  <article key={demand.id} className="rounded-xl border border-border/70 bg-background/72 p-4">
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                         <span className="rounded-full border px-2 py-1 font-medium">

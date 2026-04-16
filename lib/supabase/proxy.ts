@@ -43,7 +43,15 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  await supabase.auth.getUser();
+  try {
+    await supabase.auth.getUser();
+  } catch (error) {
+    // Keep request flow alive even when Supabase auth endpoint is transiently unavailable.
+    console.error("[proxy] falha ao atualizar sessao", {
+      error,
+      pathname: request.nextUrl.pathname,
+    });
+  }
 
   return response;
 }

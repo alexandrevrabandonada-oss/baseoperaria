@@ -10,38 +10,63 @@ const statusCopy: Record<
 > = {
   "dados-invalidos": {
     kind: "error",
-    message: "Revise os dois campos e preencha do jeito mais curto e claro possível.",
-    title: "Dados inválidos",
+    message: "Preencha pseudônimo e vínculo com pelo menos 2 caracteres.",
+    title: "Dados incompletos",
   },
   "email-invalido": {
     kind: "error",
-    message: "Informe um e-mail válido para receber o magic link.",
+    message: "Digite um e-mail válido para receber o link de entrada.",
     title: "E-mail inválido",
   },
   erro: {
     kind: "error",
-    message: "Não conseguimos concluir a entrada agora. Tente de novo em instantes.",
-    title: "Falha de autenticação",
+    message: "A entrada falhou agora. Tente de novo em instantes.",
+    title: "Falha na entrada",
   },
   "erro-envio": {
     kind: "error",
-    message: "Não conseguimos enviar o link de entrada agora.",
+    message: "Nao deu para enviar o link agora. Tente de novo em instantes.",
     title: "Envio interrompido",
+  },
+  "erro-perfil": {
+    kind: "error",
+    message: "Nao deu para salvar seu cadastro agora. Tente outra vez.",
+    title: "Falha no onboarding",
+  },
+  "callback-falhou": {
+    kind: "warning",
+    message: "Esse link venceu ou falhou. Peça outro acesso.",
+    title: "Falha ao validar link",
+  },
+  "callback-sem-codigo": {
+    kind: "warning",
+    message: "O retorno veio quebrado. Peça um novo link de entrada.",
+    title: "Retorno inválido",
+  },
+  "link-confirmado": {
+    kind: "success",
+    message: "Sua entrada foi confirmada. Falta so fechar o cadastro rapido abaixo.",
+    title: "Entrada confirmada",
   },
   "link-enviado": {
     kind: "success",
-    message: "Se esse e-mail puder entrar na base, o link foi enviado.",
+    message: "Confira seu e-mail e abra o link para entrar na base.",
     title: "Link enviado",
   },
   "link-invalido": {
     kind: "warning",
-    message: "Esse link venceu ou não vale mais. Peça outro acesso.",
+    message: "Esse link venceu ou nao vale mais. Peça outro acesso.",
     title: "Link inválido",
   },
   "sessao-encerrada": {
     kind: "success",
-    message: "Sua sessão foi encerrada com sucesso.",
+    message: "Sua saida da base foi concluida.",
     title: "Sessão encerrada",
+  },
+  "sessao-expirada": {
+    kind: "warning",
+    message: "Sua sessao caiu. Entre de novo para continuar.",
+    title: "Sessão expirada",
   },
 };
 

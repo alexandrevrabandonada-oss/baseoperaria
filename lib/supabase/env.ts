@@ -23,10 +23,37 @@ export function getSupabaseAnonKey(): string {
   return getRequiredEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
 }
 
+function normalizeBaseUrl(rawUrl: string): string {
+  const trimmed = rawUrl.trim().replace(/\/+$/, "");
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  if (trimmed.startsWith("localhost") || trimmed.startsWith("127.0.0.1")) {
+    return `http://${trimmed}`;
+  }
+
+  return `https://${trimmed}`;
+}
+
 export function getSiteUrl(path = ""): string {
-  const baseUrl = (
-    process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000"
-  ).replace(/\/+$/, "");
+  const configuredSiteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() || process.env.SITE_URL?.trim();
+  const vercelHost =
+    process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+    process.env.VERCEL_URL?.trim();
+  const isProduction = process.env.NODE_ENV === "production";
+
+  if (isProduction && !configuredSiteUrl && !vercelHost) {
+    throw new Error(
+      "Missing site URL in production. Configure NEXT_PUBLIC_SITE_URL or SITE_URL.",
+    );
+  }
+
+  const baseUrl = normalizeBaseUrl(
+    configuredSiteUrl || vercelHost || "http://localhost:3000",
+  );
 
   if (!path) {
     return baseUrl;

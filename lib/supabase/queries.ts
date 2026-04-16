@@ -14,7 +14,15 @@ export const getAuthContext = cache(async () => {
   const supabase = await createClient();
   const {
     data: { user },
+    error: userError,
   } = await supabase.auth.getUser();
+
+  if (userError) {
+    console.error("[queries] falha ao obter usuario autenticado", {
+      code: userError.code,
+      message: userError.message,
+    });
+  }
 
   if (!user) {
     return {
@@ -23,11 +31,19 @@ export const getAuthContext = cache(async () => {
     };
   }
 
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("id, pseudonym, initial_link, created_at, updated_at")
     .eq("id", user.id)
     .maybeSingle();
+
+  if (profileError) {
+    console.error("[queries] falha ao carregar profile", {
+      code: profileError.code,
+      message: profileError.message,
+      userId: user.id,
+    });
+  }
 
   return {
     profile,

@@ -22,15 +22,15 @@ export default async function EconomicPage({ searchParams }: EconomicPageProps) 
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <section className="rounded-3xl border bg-card p-6">
-        <div className="flex flex-col gap-4">
+    <div className="page-stack">
+      <section className="surface-hero">
+        <div className="flex flex-col gap-4 sm:gap-5">
           <div className="flex flex-col gap-2">
-            <p className="text-sm font-medium text-muted-foreground">Pauta Econômica</p>
-            <h1 className="text-3xl font-semibold tracking-tight">
+            <p className="section-label">Pauta Econômica</p>
+            <h1 className="section-title">
               Registrar o que pesa no bolso e no vínculo
             </h1>
-            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+            <p className="section-copy">
               Use este espaço para salário, desconto, desvio de função, vínculo e outros problemas
               de pauta econômica sem precisar informar valor exato.
             </p>
@@ -49,20 +49,20 @@ export default async function EconomicPage({ searchParams }: EconomicPageProps) 
 
       <EconomicStatusBanner status={params.status} />
 
-      <section className="grid gap-3 md:grid-cols-3">
-        <div className="rounded-2xl border bg-card p-4">
+      <section className="metric-grid xl:grid-cols-3">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Registros enviados
           </p>
           <p className="mt-2 text-2xl font-semibold">{context.reportCount}</p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Empresas vinculadas
           </p>
           <p className="mt-2 text-2xl font-semibold">{context.companies.length}</p>
         </div>
-        <div className="rounded-2xl border bg-card p-4">
+        <div className="surface-metric xl:col-span-1">
           <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
             Fluxo
           </p>
