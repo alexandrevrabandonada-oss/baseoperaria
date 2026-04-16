@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   }
 
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+  const { error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (!error) {
     const destination = new URL(next, requestUrl.origin);
@@ -39,9 +39,6 @@ export async function GET(request: Request) {
     errorStatus: error?.status,
     next,
   });
-
-  return NextResponse.redirect(new URL("/entrar?status=callback-falhou", requestUrl.origin));
-}
 
   return NextResponse.redirect(new URL("/entrar?status=callback-falhou", requestUrl.origin));
 }
