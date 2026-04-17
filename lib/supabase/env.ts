@@ -1,11 +1,25 @@
-function getRequiredEnv(name: string): string {
-  const value = process.env[name]?.trim();
+function getRequiredValue(value: string | undefined, name: string): string {
+  const normalizedValue = value?.trim();
 
-  if (!value) {
+  if (!normalizedValue) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
 
-  return value;
+  return normalizedValue;
+}
+
+export function getSupabaseUrl(): string {
+  return getRequiredValue(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    "NEXT_PUBLIC_SUPABASE_URL",
+  );
+}
+
+export function getSupabaseAnonKey(): string {
+  return getRequiredValue(
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+  );
 }
 
 export function isSupabaseConfigured(): boolean {
@@ -13,14 +27,6 @@ export function isSupabaseConfigured(): boolean {
     process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim(),
   );
-}
-
-export function getSupabaseUrl(): string {
-  return getRequiredEnv("NEXT_PUBLIC_SUPABASE_URL");
-}
-
-export function getSupabaseAnonKey(): string {
-  return getRequiredEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY");
 }
 
 function normalizeBaseUrl(rawUrl: string): string {
