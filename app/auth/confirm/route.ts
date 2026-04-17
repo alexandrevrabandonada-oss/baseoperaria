@@ -13,7 +13,6 @@ function normalizeNextPath(value: string | null): string {
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
-  const code = requestUrl.searchParams.get("code");
   const tokenHash = requestUrl.searchParams.get("token_hash");
   const type = requestUrl.searchParams.get("type") as EmailOtpType | null;
   const next = normalizeNextPath(requestUrl.searchParams.get("next"));
@@ -46,13 +45,5 @@ export async function GET(request: Request) {
     return NextResponse.redirect(new URL("/entrar?status=callback-falhou", requestUrl.origin));
   }
 
-  if (!code) {
-    return NextResponse.redirect(new URL("/entrar?status=callback-sem-codigo", requestUrl.origin));
-  }
-
-  const clientExchangeUrl = new URL("/auth/exchange", requestUrl.origin);
-  clientExchangeUrl.searchParams.set("code", code);
-  clientExchangeUrl.searchParams.set("next", next);
-
-  return NextResponse.redirect(clientExchangeUrl);
+  return NextResponse.redirect(new URL("/entrar?status=callback-sem-codigo", requestUrl.origin));
 }
